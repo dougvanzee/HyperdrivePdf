@@ -1,0 +1,38 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Hyperdrive.UI">
+
+    <Color x:Key="BackgroundMain">#2d2d30</Color>
+    <SolidColorBrush x:Key="BackgroundMainBrush" Color="{StaticResource BackgroundMain}" />
+
+    <Color x:Key="BackgroundDark">#1e1e1e</Color>
+    <SolidColorBrush x:Key="BackgroundDarkBrush" Color="{StaticResource BackgroundDark}" />
+
+    <Color x:Key="BackgroundHighlight">#FF3e3e40</Color>
+    <SolidColorBrush x:Key="BackgroundHighlightBrush" Color="{StaticResource BackgroundHighlight}" />
+
+    <Color x:Key="ForegroundLight">#ffffff</Color>
+    <SolidColorBrush x:Key="ForegroundLightBrush" Color="{StaticResource ForegroundLight}" />
+
+    <Color x:Key="SubmenuBackground">#1b1b1c</Color>
+    <SolidColorBrush x:Key="SubmenuBackgroundBrush" Color="{StaticResource SubmenuBackground}" />
+
+    <Color x:Key="MenuItemText" >#ffffff</Color>
+    <SolidColorBrush x:Key="MenuItemTextBrush" Color="{StaticResource MenuItemText}" />
+
+    <Color x:Key="MenuItemHighlight" >#3e3e40</Color>
+    <SolidColorBrush x:Key="MenuItemHighlightBrush" Color="{StaticResource MenuItemHighlight}" />
+
+    <Color x:Key="BlueHighlight" >#FF007ACC</Color>
+    <SolidColorBrush x:Key="BlueHighlightBrush" Color="{StaticResource BlueHighlight}" />
+
+    <Color x:Key="LightBlueHighlight" >#FF37AEE7</Color>
+    <SolidColorBrush x:Key="LightBlueHighlightBrush" Color="{StaticResource LightBlueHighlight}" />
+
+    <Color x:Key="MainBorder" >#FF494955</Color>
+    <SolidColorBrush x:Key="MainBorderBrush" Color="{StaticResource MainBorder}" />
+
+    <Color x:Key="ButtonAlt" >#FF333337</Color>
+    <SolidColorBrush x:Key="ButtonAltBrush" Color="{StaticResource ButtonAlt}" />
+
+</ResourceDictionary>

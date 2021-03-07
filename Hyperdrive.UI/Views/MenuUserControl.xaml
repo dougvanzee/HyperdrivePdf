@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="Hyperdrive.UI.Views.MenuUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+             xmlns:hui="clr-namespace:Hyperdrive.UI"
+             xmlns:local="clr-namespace:Hyperdrive.UI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="20" d:DesignWidth="800">
+    <UserControl.Resources>
+        <hui:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    </UserControl.Resources>
+    <Grid Grid.Row="0" Panel.ZIndex="1">
+        <Grid.ColumnDefinitions>
+            <!-- App Icon / System Menu -->
+            <ColumnDefinition Width="Auto" />
+            <!-- File Menu Bar-->
+            <ColumnDefinition Width="Auto" />
+            <!-- Span -->
+            <ColumnDefinition Width="*" />
+            <!-- Window Command Buttons-->
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Application Icon / System Menu -->
+        <Button Grid.Column="0" Style="{StaticResource SystemIconButton}" Command="{Binding SystemMenuCommand}" Padding="5 0 0 0" >
+            <Image WindowChrome.IsHitTestVisibleInChrome="True" Source="/Images/Logo/Logo.png"  />
+        </Button>
+
+        <!-- Main Menu Bar -->
+        <Menu Grid.Column="1" VerticalAlignment="Bottom" Background="{StaticResource BackgroundMainBrush}" >
+            <!-- File Menu -->
+            <MenuItem Header="_File" x:Name="FileMenu" Padding="5, 0" WindowChrome.IsHitTestVisibleInChrome="True" >
+
+                <MenuItem x:Name="MenuFileOpen" Header="Open" Click="MenuFileOpen_Click" IsEnabled="{Binding bIsFileOpen, Converter={StaticResource InverseBooleanConverter}}" />
+                <MenuItem x:Name="MenuFileClose" Header="Close" Command="{Binding CloseFileCommand}" IsEnabled="{Binding bIsFileOpen}"/>
+                <Separator />
+                <MenuItem x:Name="MenuSave" Header="Save" IsEnabled="{Binding bIsFileOpen}"/>
+                <MenuItem x:Name="MenuSaveAs" Header="Save As" IsEnabled="{Binding bIsFileOpen}"/>
+                <Separator />
+                <MenuItem x:Name="MenuExit" Header="Exit" Command="{Binding ExitApplicationCommand}" />
+            </MenuItem>
+            <!-- Edit Menu -->
+            <MenuItem Header="_Edit" >
+                <MenuItem Header="Preferences" />
+            </MenuItem>
+            <!-- Tools Menu -->
+            <MenuItem Header="_Tools" >
+                <MenuItem Header="Step and Repeat" >
+                    <MenuItem Header="Custom Step and Repeat" IsEnabled="False" />
+                    <Separator />
+                    <MenuItem Header="Presets"  />
+                    <MenuItem Header="Business Card 8up" Click="BusinessCard8Up_Click" IsEnabled="{Binding bIsFileOpen}" />
+                    <MenuItem Header="2up Letter" IsEnabled="False" />
+                    <MenuItem Header="2up 11x17" IsEnabled="False" />
+                    <MenuItem Header="2up 12x18" IsEnabled="False" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Resizer" Click="Resizer_Click" />
+                <MenuItem Header="Scale 50%" Click="ScaleDownTest_Click" IsEnabled="{Binding bIsFileOpen}" />
+                <Separator />
+                <MenuItem Header="Page Sizes in Folder" Click="PageSizesInFolder_Click" />
+            </MenuItem>
+            <!-- View Menu -->
+            <MenuItem Header="_View" >
+                <MenuItem x:Name="MenuBlank" Header="Blank" />
+            </MenuItem>
+            <!-- Window Menu -->
+            <MenuItem Header="_Window" >
+                <MenuItem x:Name="Blank2" Header="Blank" />
+            </MenuItem>
+            <!-- Help Menu -->
+            <MenuItem Header="Help" WindowChrome.IsHitTestVisibleInChrome="True">
+                <MenuItem x:Name="MenuAbout" Header="About" WindowChrome.IsHitTestVisibleInChrome="True"  Command="{Binding NewTabCommand}"/>
+            </MenuItem>
+
+        </Menu>
+
+
+
+        <!-- Window Buttons -->
+        <StackPanel Grid.Column="3" Orientation="Horizontal" >
+            <!-- Minimize Button -->
+            <Button Width="35" Content="_" Grid.Column="0" Command="{Binding MinimizeCommand}" Style="{StaticResource WindowControlButton}" />
+            <!-- Maximize Button -->
+            <Button Width="35" Content="[ ]" Grid.Column="0" Command="{Binding MaximizeCommand}" Style="{StaticResource WindowControlButton}" />
+            <!-- Exit Button -->
+            <Button Width="35" Content="X" Grid.Column="0" Command="{Binding ExitApplicationCommand}" Style="{StaticResource WindowControlButton}" />
+        </StackPanel>
+
+    </Grid>
+</UserControl>

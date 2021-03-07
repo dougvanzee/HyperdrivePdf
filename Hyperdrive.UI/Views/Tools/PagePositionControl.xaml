@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="Hyperdrive.UI.Views.Tools.PagePositionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hyperdrive.UI.Views.Tools"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="120">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type RadioButton}" >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <BulletDecorator Cursor="Hand">
+                            <BulletDecorator.Bullet>
+                                <Grid Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                                    <!--Define size of the Bullet-->
+                                    <!--The two borders-->
+                                    <Border Name="RadioOuter" Background="{StaticResource ButtonAltBrush}" BorderBrush="{StaticResource MainBorderBrush}" BorderThickness="1" CornerRadius="2" />
+                                    <Border Margin="2" OpacityMask="{TemplateBinding Content}" Name="RadioMark" Background="White" Visibility="Visible" />
+                                </Grid>
+                            </BulletDecorator.Bullet>
+                            <!--Text element-->
+
+                        </BulletDecorator>
+                        <!--If item is checked, trigger the visibility of the mark-->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <!--If item is checked, trigger the visibility of the mark and change the color of the selected bullet into a darker gray for better highlighting-->
+                                <Setter TargetName="RadioMark" Property="Background" Value="{StaticResource BlueHighlightBrush}"/>
+                                <Setter TargetName="RadioOuter" Property="BorderBrush" Value="{StaticResource BlueHighlightBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <RadioButton Checked="TopLeft_Checked" GroupName="PositionGroup" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
+            <ImageBrush ImageSource="../../Images/Arrows/arrow_up_left.png"/>
+        </RadioButton>
+        <RadioButton Checked="Top_Checked" GroupName="PositionGroup" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  >
+            <ImageBrush ImageSource="../../Images/Arrows/arrow_up.png"/>
+        </RadioButton>
+        <RadioButton Checked="TopRight_Checked" GroupName="PositionGroup" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  >
+            <ImageBrush ImageSource="../../Images/Arrows/arrow_up_right.png"/>
+        </RadioButton>
+        <RadioButton Checked="Left_Checked" GroupName="PositionGroup" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"  >
+            <ImageBrush ImageSource="../../Images/Arrows/arrow_left.png"/>
+        </RadioButton>
+        <RadioButton Checked="Center_Checked" GroupName="PositionGroup" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True" >
+            <ImageBrush ImageSource="../../Images/Arrows/circle.png"/>
+        </RadioButton>
+        <RadioButton Checked="Right_Checked" GroupName="PositionGroup" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  >
+            <ImageBrush ImageSource="../../Images/Arrows/arrow_right.png"/>
+        </RadioButton>
+        <RadioButton Checked="BottomLeft_Checked" GroupName="PositionGroup" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"  >
+            <ImageBrush ImageSource="../../Images/Arrows/arrow_down_left.png"/>
+        </RadioButton>
+        <RadioButton Checked="Bottom_Checked" GroupName="PositionGroup" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  >
+            <ImageBrush ImageSource="../../Images/Arrows/arrow_down.png"/>
+        </RadioButton>
+        <RadioButton Checked="BottomRight_Checked" GroupName="PositionGroup" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  >
+            <ImageBrush ImageSource="../../Images/Arrows/arrow_down_right.png"/>
+        </RadioButton>
+    </Grid>
+</UserControl>

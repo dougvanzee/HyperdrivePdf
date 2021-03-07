@@ -1,0 +1,148 @@
+﻿<Window x:Class="Hyperdrive.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hyperdrive.UI"
+        xmlns:views="clr-namespace:Hyperdrive.UI.Views"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        x:Name="AppWindow"
+        Icon="Images/Logo/Icon.ico"
+        WindowStartupLocation="CenterScreen"
+        MinWidth="{Binding MinimumWindowWidth}"
+        MinHeight="{Binding MinimumWindowHeight}"
+        TextOptions.TextFormattingMode="Display"
+        Title="PDF Viewscreen" Height="800" Width="1200">
+
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo x:Name="taskBarItemInfo1" />
+    </Window.TaskbarItemInfo>
+    <Window.Resources>
+        <Style TargetType="{x:Type local:MainWindow}" >
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}" >
+                        <!-- Outer border with the dropshadow -->
+                        <Border Padding="{Binding OuterMarginSizeThickness, FallbackValue=10}">
+
+                            <!-- Main window outline -->
+                            <Grid>
+
+                                <!-- Opacity mask for the corners on the grid -->
+                                <Border x:Name="Container"
+                                        Background="{StaticResource BackgroundMainBrush}"
+                                        CornerRadius="{Binding WindowCornerRadius, FallbackValue=5}" />
+
+                                <!-- Window border and dropshadow -->
+                                <Border CornerRadius="{Binding WindowCornerRadius, FallbackValue=5}"
+                                        Background="{StaticResource BackgroundMainBrush}">
+                                    <Border.Effect>
+                                        <DropShadowEffect ShadowDepth="0" Opacity="0.5" />
+                                    </Border.Effect>
+                                </Border>
+
+                                <!-- The main window content -->
+                                <Grid>
+
+                                    <!-- Corner clipping -->
+                                    <Grid.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=Container}" />
+                                    </Grid.OpacityMask>
+
+                                    <Grid.RowDefinitions>
+                                        <!-- Main Menu Bar-->
+                                        <RowDefinition Height="{Binding TitleHeightGridLength, FallbackValue=20}" />
+                                        <!-- Toolbar 1 -->
+                                        <RowDefinition Height="Auto" />
+                                        <!-- Toolbar 2 -->
+                                        <RowDefinition Height="Auto" />
+                                        <!-- Main Content-->
+                                        <RowDefinition Height="*" />
+                                        <!-- Status Bar-->
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+
+                                    <DockPanel>
+                                        <views:MenuUserControl x:Name="menuBar" DockPanel.Dock="Top"/>
+                                    </DockPanel>
+
+                                    <!-- The second menu bar -->
+                                    <Grid Grid.Row="1" Margin="10 2" >
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Menu Grid.Column="0" Background="{StaticResource BackgroundMainBrush}">
+                                            <MenuItem Header="Open" />
+                                            <MenuItem Header="Save"/>
+                                            <MenuItem Header="Print"/>
+                                            <MenuItem Header="Save"/>
+                                        </Menu>
+
+                                        <Menu Grid.Column="2" Background="{StaticResource BackgroundMainBrush}">
+                                            <MenuItem Header="Open" />
+                                            <MenuItem Header="Save"/>
+                                            <MenuItem Header="Print"/>
+                                            <MenuItem Header="Save"/>
+                                        </Menu>
+
+                                    </Grid>
+
+                                    
+                                    <!-- Page Content -->
+                                    <Border Grid.Row="3" Padding="{Binding InnerContentPadding}" Background="{StaticResource BackgroundDarkBrush}" >
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            
+                                            <ContentPresenter Grid.Column="0" Grid.Row="0" />
+                                            <views:SideToolbar Grid.Column="1" Grid.Row="0" />
+
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Status Bar -->
+                                    <StatusBar Grid.Row="4" Background="{StaticResource BackgroundMainBrush}" Height="Auto" Padding="20 0" BorderBrush="{StaticResource MainBorderBrush}" BorderThickness="0 1 0 0" >
+                                        <StatusBarItem Content="TextText" Background="Transparent" Foreground="White" />
+                                        <Separator Margin="10 0" Background="{StaticResource MainBorderBrush}" />
+                                        <StatusBarItem Content="BlargBlarg" Background="Transparent" Foreground="White" />
+                                    </StatusBar>
+
+                                </Grid>
+
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome 
+            ResizeBorderThickness="{Binding ResizeBorderThickness}"
+            CaptionHeight="{Binding TitleHeight}"
+            CornerRadius="0"
+            GlassFrameThickness="0"
+            />
+    </WindowChrome.WindowChrome>
+
+    <Grid>
+        <views:PdfViewer PdfPath="{Binding FilePath}" />
+    </Grid>
+</Window>
