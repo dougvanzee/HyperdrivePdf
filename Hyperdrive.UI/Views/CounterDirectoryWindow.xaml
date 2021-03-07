@@ -5,16 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hyperdrive.UI.Views"
         mc:Ignorable="d"
-        Title="Directory Page Counter" Height="450" Width="500">
+        Title="Directory Page Counter" Height="300" Width="500">
+    
     <Border Background="{StaticResource BackgroundDarkBrush}">
-        <Grid Margin="20">
-            <Grid.RowDefinitions>
+        
+        <!-- Main content -->
+        <Grid Margin="20" >
+            <Grid.RowDefinitions >
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="15" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="15" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            
+            <!-- Main folder path -->
             <Grid Grid.Row="0" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -29,20 +38,33 @@
                          MinWidth="250" Height="25" Margin="10 0" />
                 <Button Grid.Column="2" Content="Browse" Padding="5 0" />
             </Grid>
-            <Grid Grid.Row="4" >
+
+            <!-- Subdirectories checkbox -->
+            <CheckBox Grid.Row="2" Content="Include subdirectories" IsChecked="True" Foreground="White" Margin="25 0" />
+
+            <!-- Non-PDF files checkbox -->
+            <CheckBox Grid.Row="4" Content="Include non-PDF files in error report" IsChecked="False" Foreground="White" Margin="25 0" />
+
+            <!-- Report path -->
+            <Grid Grid.Row="6" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Folder Path" Foreground="White" />
+                <Label Grid.Column="0" Content="Report Path" Foreground="White" />
                 <TextBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
                          x:Name="as"
-                         Text="{Binding SelectedPath, RelativeSource={RelativeSource
-                         Mode=FindAncestor, AncestorType=UserControl}}"
+                         Text=""
                          MinWidth="250" Height="25" Margin="10 0" />
                 <Button Grid.Column="2" Content="Browse" Padding="5 0" />
             </Grid>
+
+            <!-- Button controls -->
+            <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Right" >
+                <Button Content="Generate Report" Height="25" Padding="5 0" Margin="20 0" />
+                <Button Content="Cancel" Height="25" Padding="5 0" />
+            </StackPanel>
         </Grid>
     </Border>
 </Window>

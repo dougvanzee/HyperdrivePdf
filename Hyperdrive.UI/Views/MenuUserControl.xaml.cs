@@ -107,13 +107,15 @@ namespace Hyperdrive.UI.Views
 
         private void PageSizesInFolder_Click(object sender, RoutedEventArgs e)
         {
-            //CounterDirectoryWindow counterDirectoryWindow = new CounterDirectoryWindow();
-            //counterDirectoryWindow.ShowDialog();
+            CounterDirectoryWindow counterWindow = new CounterDirectoryWindow();
+            counterWindow.ShowDialog();
 
+            /*
             CounterDirectory counterDirectory = new CounterDirectory("C:/Users/thevfxguy13/Downloads/Resized");
             counterDirectory.PrintPageSizeCounts();
             LoadingScreenWindow loadingScreenWindow = new LoadingScreenWindow(this.parentWindow, counterDirectory);
             loadingScreenWindow.Show();
+            */
         }
     }
 }

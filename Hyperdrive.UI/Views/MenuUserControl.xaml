@@ -42,7 +42,7 @@
                 <MenuItem x:Name="MenuExit" Header="Exit" Command="{Binding ExitApplicationCommand}" />
             </MenuItem>
             <!-- Edit Menu -->
-            <MenuItem Header="_Edit" >
+            <MenuItem Header="_Edit" IsEnabled="False" >
                 <MenuItem Header="Preferences" />
             </MenuItem>
             <!-- Tools Menu -->
@@ -63,11 +63,11 @@
                 <MenuItem Header="Page Sizes in Folder" Click="PageSizesInFolder_Click" />
             </MenuItem>
             <!-- View Menu -->
-            <MenuItem Header="_View" >
+            <MenuItem Header="_View" IsEnabled="False" >
                 <MenuItem x:Name="MenuBlank" Header="Blank" />
             </MenuItem>
             <!-- Window Menu -->
-            <MenuItem Header="_Window" >
+            <MenuItem Header="_Window" IsEnabled="False" >
                 <MenuItem x:Name="Blank2" Header="Blank" />
             </MenuItem>
             <!-- Help Menu -->
