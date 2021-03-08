@@ -24,7 +24,8 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 {
     public class CounterDirectory
     {
-        private string rootFolderPath; 
+        private string rootFolderPath;
+        private string reportPath;
         private int totalPageCount = 0;
 
         private List<PageSizeCount> pageSizeCounts;
@@ -40,9 +41,10 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
         private CancellationTokenSource cts;
         CancellationToken token;
 
-        public CounterDirectory(string folderPath)
+        public CounterDirectory(string folderPath, string reportPath)
         {
             rootFolderPath = folderPath;
+            this.reportPath = reportPath;
             pdfPaths = GetFileList("*.pdf*").ToList();
             pdfListLength = pdfPaths.Count();
         }
@@ -214,7 +216,7 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
             writeReportToPdf(buffer2);
             
-            System.Diagnostics.Process.Start("C:\\demo.pdf");
+            System.Diagnostics.Process.Start(reportPath);
         }
 
         private byte[] getMainReportAsByte()
@@ -376,7 +378,7 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
             using (MemoryStream memoryStream = new MemoryStream(buffer))
             {
                 PdfReader reader = new PdfReader(memoryStream);
-                PdfWriter writer = new PdfWriter("C:\\demo.pdf");
+                PdfWriter writer = new PdfWriter(reportPath);
                 PdfDocument pdf = new PdfDocument(reader, writer);
                 Document document = new Document(pdf, new PageSize(612, 792));
 

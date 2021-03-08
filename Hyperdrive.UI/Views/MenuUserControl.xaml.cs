@@ -107,7 +107,7 @@ namespace Hyperdrive.UI.Views
 
         private void PageSizesInFolder_Click(object sender, RoutedEventArgs e)
         {
-            CounterDirectoryWindow counterWindow = new CounterDirectoryWindow();
+            CounterDirectoryWindow counterWindow = new CounterDirectoryWindow(parentWindow);
             counterWindow.ShowDialog();
 
             /*

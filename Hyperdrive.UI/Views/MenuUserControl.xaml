@@ -36,8 +36,8 @@
                 <MenuItem x:Name="MenuFileOpen" Header="Open" Click="MenuFileOpen_Click" IsEnabled="{Binding bIsFileOpen, Converter={StaticResource InverseBooleanConverter}}" />
                 <MenuItem x:Name="MenuFileClose" Header="Close" Command="{Binding CloseFileCommand}" IsEnabled="{Binding bIsFileOpen}"/>
                 <Separator />
-                <MenuItem x:Name="MenuSave" Header="Save" IsEnabled="{Binding bIsFileOpen}"/>
-                <MenuItem x:Name="MenuSaveAs" Header="Save As" IsEnabled="{Binding bIsFileOpen}"/>
+                <MenuItem x:Name="MenuSave" Header="Save" IsEnabled="False"/>
+                <MenuItem x:Name="MenuSaveAs" Header="Save As" IsEnabled="False"/>
                 <Separator />
                 <MenuItem x:Name="MenuExit" Header="Exit" Command="{Binding ExitApplicationCommand}" />
             </MenuItem>

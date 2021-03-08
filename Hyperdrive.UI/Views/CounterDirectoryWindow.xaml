@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hyperdrive.UI.Views"
+        DataContext="{RelativeSource Self}"
         mc:Ignorable="d"
-        Title="Directory Page Counter" Height="300" Width="500">
+        WindowStartupLocation="CenterOwner"
+        Title="Directory Page Counter" Height="300" Width="800">
     
     <Border Background="{StaticResource BackgroundDarkBrush}">
         
@@ -32,18 +34,19 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="Folder Path" Foreground="White" />
                 <TextBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                         x:Name="SelectedPathTxtBox"
-                         Text="{Binding SelectedPath, RelativeSource={RelativeSource
-                         Mode=FindAncestor, AncestorType=UserControl}}"
-                         MinWidth="250" Height="25" Margin="10 0" />
-                <Button Grid.Column="2" Content="Browse" Padding="5 0" />
+                         x:Name="SelectedPathTextBox"
+                         Text="{Binding FolderPath}"
+                         MinWidth="250" Height="25" Margin="10 0"
+                         IsEnabled="False" TextWrapping="NoWrap"
+                         VerticalContentAlignment="Center" />
+                <Button Click="BrowseFolderPath_Click" Grid.Column="2" Content="Browse" Padding="5 0" />
             </Grid>
 
             <!-- Subdirectories checkbox -->
-            <CheckBox Grid.Row="2" Content="Include subdirectories" IsChecked="True" Foreground="White" Margin="25 0" />
+            <CheckBox Grid.Row="2" Content="Include subdirectories" IsChecked="{Binding IncludeSubdirectories}" Foreground="White" Margin="25 0" />
 
             <!-- Non-PDF files checkbox -->
-            <CheckBox Grid.Row="4" Content="Include non-PDF files in error report" IsChecked="False" Foreground="White" Margin="25 0" />
+            <CheckBox Grid.Row="4" Content="Include non-PDF files in error report" IsChecked="{Binding IncludeNonPdfs}" Foreground="White" Margin="25 0" />
 
             <!-- Report path -->
             <Grid Grid.Row="6" >
@@ -55,14 +58,15 @@
                 <Label Grid.Column="0" Content="Report Path" Foreground="White" />
                 <TextBox Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
                          x:Name="as"
-                         Text=""
-                         MinWidth="250" Height="25" Margin="10 0" />
-                <Button Grid.Column="2" Content="Browse" Padding="5 0" />
+                         Text="{Binding ReportPath}"
+                         MinWidth="250" Height="25" Margin="10 0"
+                         IsEnabled="False" />
+                <Button Click="BrowseReportPath_Click" Grid.Column="2" Content="Browse" Padding="5 0" />
             </Grid>
 
             <!-- Button controls -->
             <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Right" >
-                <Button Content="Generate Report" Height="25" Padding="5 0" Margin="20 0" />
+                <Button Click="GenerateReport_Click" IsEnabled="{Binding GenerateReportButtonEnabled}" Content="Generate Report" Height="25" Padding="5 0" Margin="20 0" />
                 <Button Content="Cancel" Height="25" Padding="5 0" />
             </StackPanel>
         </Grid>
