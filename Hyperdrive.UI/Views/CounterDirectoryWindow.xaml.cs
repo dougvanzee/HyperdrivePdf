@@ -98,6 +98,7 @@ namespace Hyperdrive.UI.Views
             CounterDirectory counterDirectory = new CounterDirectory(FolderPath, ReportPath);
             counterDirectory.PrintPageSizeCounts();
             LoadingScreenWindow loadingScreenWindow = new LoadingScreenWindow(this, counterDirectory);
+            this.Visibility = Visibility.Hidden;
             loadingScreenWindow.Show();
         }
     }
