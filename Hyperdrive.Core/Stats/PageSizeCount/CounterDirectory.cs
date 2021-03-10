@@ -24,15 +24,34 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 {
     public class CounterDirectory
     {
+        public class PageSizeCountError
+        {
+            private string fileName;
+            private string filePath;
+            private string errorMessage;
+
+            public PageSizeCountError(string fileName, string filePath, string errorMessage)
+            {
+                this.fileName = fileName;
+                this.filePath = filePath;
+                this.errorMessage = errorMessage;
+            }
+
+            public string FileName { get { return fileName; } }
+            public string FilePath { get { return filePath; } }
+            public string ErrorMessage { get { return errorMessage; } }
+        }
+
         private string rootFolderPath;
         private string reportPath;
         private int totalPageCount = 0;
 
         private List<PageSizeCount> pageSizeCounts;
+        private List<PageSizeCountError> pageSizeCountErrors = new List<PageSizeCountError>();
 
-        private List<string> pdfPaths;
+        private List<string> filePaths;
 
-        private int pdfListLength = 0;
+        private int fileListLength = 0;
         private volatile int currentProgress = 0;
         private volatile bool isDone = false;
 
@@ -41,13 +60,20 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
         private CancellationTokenSource cts;
         CancellationToken token;
 
-        public CounterDirectory(string folderPath, string reportPath)
+        public CounterDirectory(string folderPath, string reportPath, bool includeSubdirectories, bool includeNonPdfs)
         {
             rootFolderPath = folderPath;
             this.reportPath = reportPath;
-            pdfPaths = GetFileList("*.pdf*").ToList();
-            pdfListLength = pdfPaths.Count();
+
+            filePaths = GetFileList(includeSubdirectories, includeNonPdfs).ToList();
+            fileListLength = filePaths.Count();
         }
+
+        public int getNumberOfPdfs() { return fileListLength; }
+
+        public int getCurrentProgress() { return currentProgress; }
+
+        public bool getIsDone() { return isDone; }
 
         public async void PrintPageSizeCounts()
         {
@@ -62,12 +88,6 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
             }
         }
-
-        public int getNumberOfPdfs() { return pdfListLength; }
-
-        public int getCurrentProgress() { return currentProgress; }
-
-        public bool getIsDone() { return isDone; }
 
         private async Task PrintAllPdfFilesInDirectory()
         {
@@ -89,28 +109,42 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
             int currentIndex = 0;
 
-            foreach (string pdfPath in pdfPaths)
+            foreach (string filePath in filePaths)
             {
                 token.ThrowIfCancellationRequested();
+                bool bEndInError = false;
                 currentIndex++;
                 currentProgress = currentIndex;
-                Console.WriteLine("Reading Pdf " + currentIndex + "/" + pdfListLength);
-                Console.WriteLine(pdfPath);
+                List<PageSizeCount> tempSizeCounts = new List<PageSizeCount>();
+
+                try
+                {
+                    if (!(System.IO.Path.GetExtension(filePath).Equals(".pdf", StringComparison.InvariantCultureIgnoreCase)))
+                    {
+                        Console.WriteLine(System.IO.Path.GetExtension(filePath));
+                        pageSizeCountErrors.Add(new PageSizeCountError(System.IO.Path.GetFileName(filePath), filePath, "Not a PDF"));
+                        continue;
+                    }
+                }
+                catch
+                {
+                    continue;
+                }
+
 
                 PdfDocument pdfDoc;
                 int pdfPageCount;
                 try
                 {
-                    pdfDoc = new PdfDocument(new PdfReader(pdfPath));
+                    pdfDoc = new PdfDocument(new PdfReader(filePath));
                     pdfPageCount = pdfDoc.GetNumberOfPages();
                 }
                 catch (Exception ex)
                 {
+                    pageSizeCountErrors.Add(new PageSizeCountError(System.IO.Path.GetFileName(filePath), filePath, "Invalid PDF"));
                     Console.WriteLine(ex);
-                    break;
+                    continue;
                 }
-
-                totalPageCount += pdfPageCount;
 
                 for (int i = 1; i <= pdfPageCount; i++)
                 {
@@ -120,8 +154,21 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                     float width;
                     float height;
 
-                    PdfPage currentPage = pdfDoc.GetPage(i);
-                    iText.Kernel.Geom.Rectangle cropRect = currentPage.GetCropBox();
+                    PdfPage currentPage;
+                    iText.Kernel.Geom.Rectangle cropRect;
+
+                    try
+                    {
+                        currentPage = pdfDoc.GetPage(i);
+                        cropRect = currentPage.GetCropBox();
+                    }
+                    catch
+                    {
+                        bEndInError = true;
+                        pageSizeCountErrors.Add(new PageSizeCountError(System.IO.Path.GetFileName(filePath), filePath, "PDF Syntax Error"));
+                        break;
+                    }
+
 
                     if (cropRect.GetWidth() <= cropRect.GetHeight())
                     {
@@ -143,7 +190,7 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                         {
                             pageSize.AddToCount();
                             sizeFound = true;
-                            break;
+                            continue;
                         }
                     }
 
@@ -156,6 +203,10 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                     }
                 }
 
+                if (!bEndInError)
+                {
+                    totalPageCount += pdfPageCount;
+                }
             }
 
             pageSizes.RemoveAll(t => t.NumberOfPages == 0);
@@ -180,8 +231,15 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
             return defaultPageSizes;
         }
 
-        private IEnumerable<string> GetFileList(string fileSearchPattern)
+
+        private IEnumerable<string> GetFileList(bool includeSubdirectories, bool includeNonPdfs)
         {
+            string fileSearchPattern;
+            if (includeNonPdfs)
+                fileSearchPattern = "*";
+            else
+                fileSearchPattern = "*.pdf";
+
             Queue<string> pending = new Queue<string>();
             pending.Enqueue(rootFolderPath);
             string[] tmp;
@@ -200,10 +258,13 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                 {
                     yield return tmp[i];
                 }
+                if (includeSubdirectories)
+                { 
                 tmp = Directory.GetDirectories(rootFolderPath);
-                for (int i = 0; i < tmp.Length; i++)
-                {
-                    pending.Enqueue(tmp[i]);
+                    for (int i = 0; i < tmp.Length; i++)
+                    {
+                        pending.Enqueue(tmp[i]);
+                    }
                 }
             }
         }
@@ -290,6 +351,7 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
                 document.Add(table);
 
+                /*
                 // Hyper link
                 Link link = new Link("click here",
                    PdfAction.CreateURI("https://www.google.com"));
@@ -300,6 +362,8 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
                 document.Add(newline);
                 document.Add(hyperLink);
+
+                */
 
                 document.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
@@ -319,7 +383,53 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
                 // Line separator
                 document.Add(ls);
+                document.Add(newline);
 
+                // Table
+                Table errorTable = new Table(3, false)
+                    .SetWidth(450)
+                    .SetHorizontalAlignment(HorizontalAlignment.CENTER);
+
+                List<Cell> errorCellsList = new List<Cell>();
+
+                Cell errorCell11 = new Cell(1, 1)
+                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .Add(new Paragraph("File Name"));
+                errorCellsList.Add(errorCell11);
+
+                Cell errorCell12 = new Cell(1, 1)
+                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .Add(new Paragraph("Path"));
+                errorCellsList.Add(errorCell12);
+
+                Cell errorCell13 = new Cell(1, 1)
+                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .Add(new Paragraph("Error Message"));
+                errorCellsList.Add(errorCell13);
+
+                foreach (PageSizeCountError pageSizeCountError in pageSizeCountErrors)
+                {
+                    errorCellsList.Add(new Cell(1, 1)
+                        .SetTextAlignment(TextAlignment.CENTER)
+                        .Add(new Paragraph(pageSizeCountError.FileName).SetFontSize(9)));
+                    errorCellsList.Add(new Cell(1, 1)
+                        .SetTextAlignment(TextAlignment.CENTER)
+                        .Add(new Paragraph(pageSizeCountError.FilePath).SetFontSize(9)));
+                    errorCellsList.Add(new Cell(1, 1)
+                        .SetTextAlignment(TextAlignment.CENTER)
+                        .Add(new Paragraph(pageSizeCountError.ErrorMessage).SetFontSize(9)));
+                }
+                
+                foreach (Cell cell in errorCellsList)
+                {
+                    errorTable.AddCell(cell);
+                }
+
+                document.Add(errorTable);
+                
                 document.Close();
 
                 buffer = stream.ToArray();
