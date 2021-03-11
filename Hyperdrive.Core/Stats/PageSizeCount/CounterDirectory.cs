@@ -112,10 +112,15 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
             foreach (string filePath in filePaths)
             {
                 token.ThrowIfCancellationRequested();
+
+                foreach (PageSizeCount pageSize in pageSizes)
+                {
+                    pageSize.ClearStagedCounts();
+                }
+
                 bool bEndInError = false;
                 currentIndex++;
                 currentProgress = currentIndex;
-                List<PageSizeCount> tempSizeCounts = new List<PageSizeCount>();
 
                 try
                 {
@@ -131,9 +136,9 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                     continue;
                 }
 
-
                 PdfDocument pdfDoc;
                 int pdfPageCount;
+
                 try
                 {
                     pdfDoc = new PdfDocument(new PdfReader(filePath));
@@ -169,7 +174,6 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                         break;
                     }
 
-
                     if (cropRect.GetWidth() <= cropRect.GetHeight())
                     {
                         width = cropRect.GetWidth() / 72;
@@ -188,24 +192,40 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
                         if (deltaX <= 0.04f && deltaY <= 0.04f)
                         {
-                            pageSize.AddToCount();
                             sizeFound = true;
+                            pageSize.AddToStagedCount();
                             continue;
                         }
                     }
 
-
-
                     if (!sizeFound)
                     {
                         pageSizes.Add(new PageSizeCount(width, height));
-                        pageSizes.Last().AddToCount();
+                        pageSizes.Last().AddToStagedCount();
                     }
                 }
 
                 if (!bEndInError)
                 {
                     totalPageCount += pdfPageCount;
+                    foreach (PageSizeCount pageSizeCount in pageSizes)
+                    {
+                        pageSizeCount.CommitStagedCounts();
+                    }
+                }
+                else
+                {
+                    for (int i = pageSizes.Count - 1; i >= 0; i--)
+                    {
+                        if (pageSizes[i].NumberOfPages == 0 && pageSizes[i].IsDefaultSize == false)
+                        {
+                            pageSizes.RemoveAt(i);
+                        }
+                        else
+                        {
+                            pageSizes[i].ClearStagedCounts();
+                        }
+                    }
                 }
             }
 
@@ -214,19 +234,20 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
             return pageSizes;
         }
 
-
         private List<PageSizeCount> defaultPageSizeList()
         {
             List<PageSizeCount> defaultPageSizes = new List<PageSizeCount>();
-            defaultPageSizes.Add(new PageSizeCount(8.5f, 11f));
-            defaultPageSizes.Add(new PageSizeCount(11f, 17f));
-            defaultPageSizes.Add(new PageSizeCount(17f, 22f));
-            defaultPageSizes.Add(new PageSizeCount(22f, 34f));
-            defaultPageSizes.Add(new PageSizeCount(34f, 44f));
-            defaultPageSizes.Add(new PageSizeCount(12f, 18f));
-            defaultPageSizes.Add(new PageSizeCount(18f, 24f));
-            defaultPageSizes.Add(new PageSizeCount(24f, 36f));
-            defaultPageSizes.Add(new PageSizeCount(36f, 48f));
+            defaultPageSizes.Add(new PageSizeCount(8.5f, 11f, true));
+            defaultPageSizes.Add(new PageSizeCount(8.5f, 14f, true));  
+            defaultPageSizes.Add(new PageSizeCount(11f, 17f, true));
+            defaultPageSizes.Add(new PageSizeCount(12f, 18f, true));
+            defaultPageSizes.Add(new PageSizeCount(17f, 21f, true));
+            defaultPageSizes.Add(new PageSizeCount(17f, 22f, true));
+            defaultPageSizes.Add(new PageSizeCount(18f, 24f, true));
+            defaultPageSizes.Add(new PageSizeCount(22f, 34f, true));
+            defaultPageSizes.Add(new PageSizeCount(24f, 36f, true));
+            defaultPageSizes.Add(new PageSizeCount(34f, 44f, true));
+            defaultPageSizes.Add(new PageSizeCount(36f, 48f, true));
 
             return defaultPageSizes;
         }
