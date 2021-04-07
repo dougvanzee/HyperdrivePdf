@@ -105,5 +105,12 @@
   <ItemGroup>
     <Resource Include="Images\Logo\Logo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Readme\DirectoryPageCountErrorReport.PNG" />
+    <Content Include="Images\Readme\DirectoryPageCountMenu.PNG" />
+    <Content Include="Images\Readme\DirectoryPageCountReport.PNG" />
+    <Content Include="Images\Readme\MainWindow.png" />
+    <Content Include="Images\Readme\PageCountToolbar.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
