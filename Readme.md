@@ -1,6 +1,6 @@
 <h2 align="left">HyperdrivePDF</h2>
 
-A WPF application for counting the number of PDF page sizes and for processing files for printing. Utilizes the iText7 library for PDF statistics and manipulation.
+A WPF application for counting the number of PDF page sizes and for processing files for printing. Utilizes the iText7 library for PDF manipulation, generation, and gathering statistics.
 
 ### Features
 
