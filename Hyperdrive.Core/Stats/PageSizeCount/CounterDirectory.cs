@@ -490,7 +490,7 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                         document.Add(img);
 
                         document.ShowTextAligned(new Paragraph(String
-                            .Format("Hyperdrive PDF\nDisplace Media LLC")),
+                            .Format("Hyperdrive PDF")),
                             80, 765, i, TextAlignment.LEFT,
                             VerticalAlignment.TOP, 0);
                     }
@@ -529,7 +529,7 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                     document.Add(img);
 
                     document.ShowTextAligned(new Paragraph(String
-                        .Format("Hyperdrive PDF\nDisplace Media LLC")),
+                        .Format("Hyperdrive PDF")),
                         80, 765, i, TextAlignment.LEFT,
                         VerticalAlignment.TOP, 0);
                 }
