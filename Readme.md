@@ -1,12 +1,12 @@
 <h2 align="left">HyperdrivePDF</h2>
 
-A WPF application for counting the number of PDF page sizes and for processing files for printing. Utilizes the iText7 library for PDF manipulation, generation, and gathering statistics.
+A WPF application for counting the number of PDF page sizes and for processing PDFs for printing. Utilizes the iText7 library for PDF manipulation, generation, and gathering statistics.
 
 ### Features
 
-* PDF Viewer (Fix for memory leak with large PDF files has not been committed yet).
-* Page size toolbar counts the different page sizes the current PDF.
-* Directory page size counter generates a PDF report of pages size for all PDFs in a folder. Includes error report for invalid PDFs or non-PDF files.
+* <b>PDF Viewer</b> (Fix for memory leak with large PDF files has not been committed yet).
+* <b>Page Size Toolbar</b> - Counts the different page sizes in the opened PDF.
+* <b>Directory Page Size Counter</b> - Generates a PDF report of pages sizes for all PDFs in a folder. Includes error report for invalid PDFs and non-PDF files.
 
 ### Features in Development
 
@@ -14,6 +14,7 @@ A WPF application for counting the number of PDF page sizes and for processing f
 * <b>Letter / Tabloid Resizer</b> - Force all pages to be either 8.5"x11 or 11x17. Used for RFQs and RPFs.
 * <b>Step-And-Repeat / N-Upping</b> - Place multiple PDF pages or multiple copies of the same PDF page on a single page.
 * <b>Color Detection</b> - Detect whether a page has any color elements on it. Most commercial PDF applications return false positives when it comes to detecting color, especially when the page contains a grayscale image.
+* <b>Combine PDFs</b> - Combine multiple PDFs as one and combine a folder of PDFs alphabetically by subdirectory.
 
 
 ### Main Window
