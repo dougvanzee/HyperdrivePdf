@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Threading;
+using iText.Kernel.Pdf.Colorspace;
 
 namespace Hyperdrive.Core.Stats.PageSizeCount
 {
@@ -194,7 +195,39 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                         {
                             sizeFound = true;
                             pageSize.AddToStagedCount();
-                            continue;
+                            break;
+                        }
+                    }
+
+                    if (!sizeFound)
+                    {
+                        foreach (PageSizeCount pageSize in pageSizes)
+                        {
+                            float deltaX = Math.Abs(width - pageSize.SizeX);
+                            float deltaY = Math.Abs(height - pageSize.SizeY);
+
+                            if (deltaX <= 0.49f && deltaY <= 0.49f)
+                            {
+                                sizeFound = true;
+                                pageSize.AddToStagedCount();
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!sizeFound)
+                    {
+                        foreach (PageSizeCount pageSize in pageSizes)
+                        {
+                            float deltaX = Math.Abs(width - pageSize.SizeX);
+                            float deltaY = Math.Abs(height - pageSize.SizeY);
+
+                            if (deltaX <= 0.99f && deltaY <= 0.99f)
+                            {
+                                sizeFound = true;
+                                pageSize.AddToStagedCount();
+                                break;
+                            }
                         }
                     }
 
@@ -238,15 +271,26 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
         {
             List<PageSizeCount> defaultPageSizes = new List<PageSizeCount>();
             defaultPageSizes.Add(new PageSizeCount(8.5f, 11f, true));
-            defaultPageSizes.Add(new PageSizeCount(8.5f, 14f, true));  
+            defaultPageSizes.Add(new PageSizeCount(8.5f, 14f, true));
+            defaultPageSizes.Add(new PageSizeCount(9f, 11f, true));
             defaultPageSizes.Add(new PageSizeCount(11f, 17f, true));
             defaultPageSizes.Add(new PageSizeCount(12f, 18f, true));
+            defaultPageSizes.Add(new PageSizeCount(15f, 21f, true));
+            defaultPageSizes.Add(new PageSizeCount(15f, 22f, true));
             defaultPageSizes.Add(new PageSizeCount(17f, 21f, true));
             defaultPageSizes.Add(new PageSizeCount(17f, 22f, true));
             defaultPageSizes.Add(new PageSizeCount(18f, 24f, true));
+            defaultPageSizes.Add(new PageSizeCount(18f, 36f, true));
             defaultPageSizes.Add(new PageSizeCount(22f, 34f, true));
+            defaultPageSizes.Add(new PageSizeCount(22f, 36f, true));
             defaultPageSizes.Add(new PageSizeCount(24f, 36f, true));
+            defaultPageSizes.Add(new PageSizeCount(24f, 44f, true));
+            defaultPageSizes.Add(new PageSizeCount(26f, 36f, true));
+            defaultPageSizes.Add(new PageSizeCount(30f, 36f, true));
+            defaultPageSizes.Add(new PageSizeCount(30f, 40f, true));
+            defaultPageSizes.Add(new PageSizeCount(30f, 42f, true));
             defaultPageSizes.Add(new PageSizeCount(34f, 44f, true));
+            defaultPageSizes.Add(new PageSizeCount(36f, 42f, true));
             defaultPageSizes.Add(new PageSizeCount(36f, 48f, true));
 
             return defaultPageSizes;
@@ -255,6 +299,7 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
         private IEnumerable<string> GetFileList(bool includeSubdirectories, bool includeNonPdfs)
         {
+            string folderPath = rootFolderPath;
             string fileSearchPattern;
             if (includeNonPdfs)
                 fileSearchPattern = "*";
@@ -262,14 +307,14 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                 fileSearchPattern = "*.pdf";
 
             Queue<string> pending = new Queue<string>();
-            pending.Enqueue(rootFolderPath);
+            pending.Enqueue(folderPath);
             string[] tmp;
             while (pending.Count > 0)
             {
-                rootFolderPath = pending.Dequeue();
+                folderPath = pending.Dequeue();
                 try
                 {
-                    tmp = Directory.GetFiles(rootFolderPath, fileSearchPattern);
+                    tmp = Directory.GetFiles(folderPath, fileSearchPattern);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -281,7 +326,7 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                 }
                 if (includeSubdirectories)
                 { 
-                tmp = Directory.GetDirectories(rootFolderPath);
+                tmp = Directory.GetDirectories(folderPath);
                     for (int i = 0; i < tmp.Length; i++)
                     {
                         pending.Enqueue(tmp[i]);
@@ -306,6 +351,12 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
             byte[] buffer;
             using (MemoryStream stream = new MemoryStream())
             {
+                int totalPageCount = 0;
+                foreach (PageSizeCount pageSizeCount in pageSizeCounts)
+                {
+                    totalPageCount += pageSizeCount.NumberOfPages;
+                }
+
                 // Must have write permissions to the path folder
                 //var stream = new MemoryStream();
                 var writer = new PdfWriter(stream);
@@ -354,6 +405,18 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                     .SetTextAlignment(TextAlignment.CENTER)
                     .Add(new Paragraph("Quantity"));
                 cellsList.Add(cell12);
+
+                Cell cell21 = new Cell(1, 1)
+                    .SetBackgroundColor(Color.MakeColor(ColorConstants.LIGHT_GRAY.GetColorSpace(), new float[] { 0.85f, 0.85f, 0.85f }))
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .Add(new Paragraph("TOTAL").SetBold());
+                cellsList.Add(cell21);
+
+                Cell cell22 = new Cell(1, 1)
+                    .SetBackgroundColor(Color.MakeColor(ColorConstants.LIGHT_GRAY.GetColorSpace(), new float[] { 0.85f, 0.85f, 0.85f }))
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .Add(new Paragraph(totalPageCount.ToString()).SetBold());
+                cellsList.Add(cell22);
 
                 foreach (PageSizeCount pageSizeCount in pageSizeCounts)
                 {
