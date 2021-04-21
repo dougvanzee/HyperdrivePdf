@@ -233,7 +233,9 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
                     if (!sizeFound)
                     {
-                        pageSizes.Add(new PageSizeCount(width, height));
+                        decimal dWidth = Math.Round((decimal)width, 2, MidpointRounding.ToEven);
+                        decimal dHeight = Math.Round((decimal)height, 2, MidpointRounding.ToEven);
+                        pageSizes.Add(new PageSizeCount((float)dWidth, (float)dHeight));
                         pageSizes.Last().AddToStagedCount();
                     }
                 }
