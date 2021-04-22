@@ -38,6 +38,8 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
         public int StagedCounts { get { return stagedCounts; } }
         public bool IsDefaultSize { get { return isDefaultSize; } }
 
+        public int SquareFootage { get { return squareFootage; } }
+
         public void AddToCount()
         {
             numberOfPages++;
@@ -57,11 +59,6 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
         public void ClearStagedCounts()
         {
             stagedCounts = 0;
-        }
-
-        public int SquareFootage()
-        {
-            return squareFootage;
         }
 
         private void SetSquareFootage()

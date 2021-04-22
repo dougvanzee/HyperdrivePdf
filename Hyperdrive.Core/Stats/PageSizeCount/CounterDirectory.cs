@@ -450,6 +450,81 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                 document.Add(hyperLink);
 
                 */
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+                document.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                // Header
+                header = new Paragraph("Square Footage Report")
+                   .SetTextAlignment(TextAlignment.CENTER)
+                   .SetFontSize(20);
+
+                document.Add(newline);
+                document.Add(header);
+
+                // Add sub-header
+                subheader = new Paragraph(" ")
+                   .SetTextAlignment(TextAlignment.CENTER)
+                   .SetFontSize(15);
+                document.Add(subheader);
+
+                // Line separator
+                document.Add(ls);
+                document.Add(newline);
+
+                // Table
+                Table sqTable = new Table(2, false)
+                    .SetWidth(300)
+                    .SetHorizontalAlignment(HorizontalAlignment.CENTER);
+
+                List<Cell> sqCellsList = new List<Cell>();
+
+                Cell sqCell11 = new Cell(1, 1)
+                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .Add(new Paragraph("Square Footage"));
+                sqCellsList.Add(sqCell11);
+
+                Cell sqCell12 = new Cell(1, 1)
+                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .Add(new Paragraph("Quantity"));
+                sqCellsList.Add(sqCell12);
+
+                SortedList<int, int> sqCount = new SortedList<int, int>();
+
+                foreach (PageSizeCount pageSizeCount in pageSizeCounts)
+                {
+                    if (sqCount.ContainsKey(pageSizeCount.SquareFootage))
+                    {
+                        sqCount[pageSizeCount.SquareFootage] += pageSizeCount.NumberOfPages;
+                    }
+                    else
+                    {
+                        sqCount.Add(pageSizeCount.SquareFootage, pageSizeCount.NumberOfPages);
+                    }
+                }
+
+                foreach (KeyValuePair<int, int> keyValuePair in sqCount)
+                {
+                    sqCellsList.Add(new Cell(1, 1)
+                        .SetTextAlignment(TextAlignment.CENTER)
+                        .Add(new Paragraph(keyValuePair.Key.ToString()).SetFontSize(9)));
+                    sqCellsList.Add(new Cell(1, 1)
+                        .SetTextAlignment(TextAlignment.CENTER)
+                        .Add(new Paragraph(keyValuePair.Value.ToString()).SetFontSize(9)));
+                }
+
+                foreach (Cell cell in sqCellsList)
+                {
+                    sqTable.AddCell(cell);
+                }
+
+                document.Add(sqTable);
+
+
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 document.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
