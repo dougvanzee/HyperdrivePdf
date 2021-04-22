@@ -13,12 +13,14 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
         private int numberOfPages = 0;
         private int stagedCounts = 0;
         private bool isDefaultSize;
+        private int squareFootage;
 
         public PageSizeCount(float SizeX, float SizeY)
         {
             sizeX = SizeX;
             sizeY = SizeY;
             isDefaultSize = false;
+            SetSquareFootage();
         }
 
         public PageSizeCount(float SizeX, float SizeY, bool IsDefaultSize)
@@ -26,6 +28,7 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
             isDefaultSize = IsDefaultSize;
             sizeX = SizeX;
             sizeY = SizeY;
+            SetSquareFootage();
         }
 
         public float SizeX { get { return sizeX; } }
@@ -54,6 +57,16 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
         public void ClearStagedCounts()
         {
             stagedCounts = 0;
+        }
+
+        public int SquareFootage()
+        {
+            return squareFootage;
+        }
+
+        private void SetSquareFootage()
+        {
+            squareFootage = (int)Math.Ceiling((sizeX * sizeY) / 144f);
         }
     }
 }
