@@ -396,29 +396,53 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
                 List<Cell> cellsList = new List<Cell>();
 
-                Cell cell11 = new Cell(1, 1)
+                Cell cell31 = new Cell(1, 1)
                     .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
                     .SetTextAlignment(TextAlignment.CENTER)
-                    .Add(new Paragraph("Size"));
-                cellsList.Add(cell11);
+                    .Add(new Paragraph("Number of Files"));
+                cellsList.Add(cell31);
 
-                Cell cell12 = new Cell(1, 1)
+                Cell cell32 = new Cell(1, 1)
                     .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
                     .SetTextAlignment(TextAlignment.CENTER)
-                    .Add(new Paragraph("Quantity"));
-                cellsList.Add(cell12);
+                    .Add(new Paragraph(getNumberOfPdfs().ToString()));
+                cellsList.Add(cell32);
+
+                Cell cell41 = new Cell(1, 1)
+                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .Add(new Paragraph("Size on Disk"));
+                cellsList.Add(cell41);
+
+                Cell cell42 = new Cell(1, 1)
+                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .Add(new Paragraph(ToFileSize(GetDirectorySize(rootFolderPath))));
+                cellsList.Add(cell42);
 
                 Cell cell21 = new Cell(1, 1)
-                    .SetBackgroundColor(Color.MakeColor(ColorConstants.LIGHT_GRAY.GetColorSpace(), new float[] { 0.85f, 0.85f, 0.85f }))
+                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
                     .SetTextAlignment(TextAlignment.CENTER)
-                    .Add(new Paragraph("TOTAL").SetBold());
+                    .Add(new Paragraph("Total Pages"));
                 cellsList.Add(cell21);
 
                 Cell cell22 = new Cell(1, 1)
+                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .Add(new Paragraph(totalPageCount.ToString()));
+                cellsList.Add(cell22);
+
+                Cell cell11 = new Cell(1, 1)
                     .SetBackgroundColor(Color.MakeColor(ColorConstants.LIGHT_GRAY.GetColorSpace(), new float[] { 0.85f, 0.85f, 0.85f }))
                     .SetTextAlignment(TextAlignment.CENTER)
-                    .Add(new Paragraph(totalPageCount.ToString()).SetBold());
-                cellsList.Add(cell22);
+                    .Add(new Paragraph("Page Size").SetBold());
+                cellsList.Add(cell11);
+
+                Cell cell12 = new Cell(1, 1)
+                    .SetBackgroundColor(Color.MakeColor(ColorConstants.LIGHT_GRAY.GetColorSpace(), new float[] { 0.85f, 0.85f, 0.85f }))
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .Add(new Paragraph("Quantity").SetBold());
+                cellsList.Add(cell12);
 
                 foreach (PageSizeCount pageSizeCount in pageSizeCounts)
                 {
@@ -684,6 +708,52 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
         public void Cancel()
         {
             cts.Cancel();
+        }
+
+        private static double GetDirectorySize(string folderPath)
+        {
+            DirectoryInfo di = new DirectoryInfo(folderPath);
+            return di.EnumerateFiles("*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+        }
+
+        // Return a string describing the value as a file size.
+        // For example, 1.23 MB.
+        public static string ToFileSize(double value)
+        {
+            string[] suffixes = { "bytes", "KB", "MB", "GB",
+        "TB", "PB", "EB", "ZB", "YB"};
+            for (int i = 0; i < suffixes.Length; i++)
+            {
+                if (value <= (Math.Pow(1024, i + 1)))
+                {
+                    return ThreeNonZeroDigits(value /
+                        Math.Pow(1024, i)) +
+                        " " + suffixes[i];
+                }
+            }
+
+            return ThreeNonZeroDigits(value /
+                Math.Pow(1024, suffixes.Length - 1)) +
+                " " + suffixes[suffixes.Length - 1];
+        }
+
+        private static string ThreeNonZeroDigits(double value)
+        {
+            if (value >= 100)
+            {
+                // No digits after the decimal.
+                return value.ToString("0,0");
+            }
+            else if (value >= 10)
+            {
+                // One digit after the decimal.
+                return value.ToString("0.0");
+            }
+            else
+            {
+                // Two digits after the decimal.
+                return value.ToString("0.00");
+            }
         }
     }
 }
