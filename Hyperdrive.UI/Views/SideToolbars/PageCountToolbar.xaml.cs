@@ -136,7 +136,7 @@ namespace Hyperdrive.UI.Views.SideToolbars
                     float deltaX = Math.Abs(width - pageSize.SizeX);
                     float deltaY = Math.Abs(height - pageSize.SizeY);
 
-                    if (deltaX <= 0.02f && deltaY <= 0.02f)
+                    if (deltaX <= 0.04f && deltaY <= 0.04f)
                     {
                         pageSize.AddToCount();
                         sizeFound = true;
@@ -146,7 +146,9 @@ namespace Hyperdrive.UI.Views.SideToolbars
 
                 if (!sizeFound)
                 {
-                    pageSizes.Add(new PageSizeCount(width, height));
+                    float rWidth = (float)Decimal.Round((Decimal)width, 1);
+                    float rHeight = (float)Decimal.Round((Decimal)height, 1);
+                    pageSizes.Add(new PageSizeCount(Math.Min(rWidth, rHeight), Math.Max(rWidth, rHeight)));
                     pageSizes.Last().AddToCount();
                 }
             }

@@ -20,6 +20,8 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Runtime.CompilerServices;
+using MoonPdfLib;
+using System.Windows.Controls.Primitives;
 
 /// <summary>
 /// The name space for all UI related tasks
@@ -31,6 +33,7 @@ namespace Hyperdrive.UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        internal MoonPdfPanel MoonPdfPanel { get { return this.moonPdfPanel; } }
 
         public MainWindow()
         {
@@ -38,8 +41,5 @@ namespace Hyperdrive.UI
 
             this.DataContext = new WindowViewModel(this);
         }
-
-
-        
     }
 }

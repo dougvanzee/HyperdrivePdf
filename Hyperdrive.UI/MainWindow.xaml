@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hyperdrive.UI"
         xmlns:views="clr-namespace:Hyperdrive.UI.Views"
+        xmlns:mpp="clr-namespace:MoonPdfLib;assembly=MoonPdfLib"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -116,9 +117,9 @@
 
                                     <!-- Status Bar -->
                                     <StatusBar Grid.Row="4" Background="{StaticResource BackgroundMainBrush}" Height="Auto" Padding="20 0" BorderBrush="{StaticResource MainBorderBrush}" BorderThickness="0 1 0 0" >
-                                        <StatusBarItem Content="TextText" Background="Transparent" Foreground="White" />
-                                        <Separator Margin="10 0" Background="{StaticResource MainBorderBrush}" />
-                                        <StatusBarItem Content="BlargBlarg" Background="Transparent" Foreground="White" />
+                                        <StatusBarItem Content="{Binding CurrentPageLabel}" Background="Transparent" MinWidth="40" Foreground="White" />
+                                        <Separator Margin="20 0" Background="{StaticResource MainBorderBrush}" />
+                                        <StatusBarItem Content="{Binding CurrentPageSize}" Background="Transparent" Foreground="White" />
                                     </StatusBar>
 
                                 </Grid>
@@ -143,6 +144,7 @@
     </WindowChrome.WindowChrome>
 
     <Grid>
-        <views:PdfViewer PdfPath="{Binding FilePath}" />
+        <!-- <views:PdfViewer PdfPath="{Binding FilePath}" /> -->
+        <mpp:MoonPdfPanel Background="{StaticResource BackgroundDarkBrush}" ViewType="SinglePage" PageRowDisplay="ContinuousPageRows" PageMargin="0,2,4,2" AllowDrop="True" x:Name="moonPdfPanel" x:FieldModifier="private" />
     </Grid>
 </Window>

@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Hyperdrive.Core.Stats.PageSizeCount;
+using Hyperdrive.Core.StepAndRepeat;
 
 namespace Hyperdrive.UI.Views
 {
@@ -60,22 +61,7 @@ namespace Hyperdrive.UI.Views
 
         private void BusinessCard8Up_Click(object sender, RoutedEventArgs e)
         {
-            // Prepare a dummy string, this would appear in the dialog
-            string FileName = System.IO.Path.GetFileNameWithoutExtension(((WindowViewModel)(this.DataContext)).FilePath) + "_1.pdf";
 
-            SaveFileDialog sf = new SaveFileDialog();
-            sf.Filter = "PDF (*.pdf)|*.pdf";
-
-            // Feed the dummy name to the save dialog
-            sf.FileName = FileName;
-
-            if (sf.ShowDialog() == true)
-            {
-                // Now here's our save folder
-                ((WindowViewModel)(this.DataContext)).FileOutPath = sf.FileName;
-
-                ((WindowViewModel)(this.DataContext)).BusinessCard8Up();
-            }
         }
 
         private void ScaleDownTest_Click(object sender, RoutedEventArgs e)

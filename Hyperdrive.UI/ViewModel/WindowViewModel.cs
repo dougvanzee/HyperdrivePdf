@@ -12,6 +12,8 @@ using Hyperdrive.Core.StepAndRepeat;
 using Hyperdrive.Core.Utils;
 using Hyperdrive.Core.Resizer;
 using iText.Kernel.Pdf;
+using MoonPdfLib;
+using MoonPdfLib.MuPdf;
 // using MoonPdfLib;
 
 namespace Hyperdrive.UI.ViewModel
@@ -27,6 +29,8 @@ namespace Hyperdrive.UI.ViewModel
         /// The window that this view model controls
         /// </summary>
         private Window mWindow;
+
+        private MoonPdfPanel pdfPanel;
 
         /// <summary>
         /// The margin around the window for the drop shadow
@@ -96,6 +100,7 @@ namespace Hyperdrive.UI.ViewModel
                 if (IsValidPdf(value))
                 {
                     filePath = value;
+                    pdfPanel.OpenFile(FilePath);
                     OnPropertyChanged(nameof(FilePath));
                     OnPropertyChanged(nameof(bIsFileOpen));
                 }
@@ -103,6 +108,39 @@ namespace Hyperdrive.UI.ViewModel
         }
 
         public string FileOutPath { get { return fileOutPath; } set { fileOutPath = value; } }
+
+        public int CurrentPageNumber { get { return pdfPanel.CurrentPageNumber; } }
+
+        public string CurrentPageLabel
+        {
+            get
+            {
+                if (CurrentPageNumber == -1)
+                    return "";
+                else
+                    return CurrentPageNumber + " of " + pdfPanel.TotalPages;
+            }
+        }
+
+        public string CurrentPageSize
+        {
+            get
+            {
+                if (CurrentPageNumber == -1)
+                    return "";
+
+                PdfDocument pdfDoc = new PdfDocument(new PdfReader(FilePath));
+                decimal width = (decimal)(pdfDoc.GetPage(CurrentPageNumber).GetPageSize().GetWidth() / 72);
+                width = Decimal.Round(width, 1);
+                decimal height = (decimal)(pdfDoc.GetPage(CurrentPageNumber).GetPageSize().GetHeight() / 72);
+                height = Decimal.Round(height, 1);
+                float min = Math.Min((float)width, (float)height);
+                float max = Math.Max((float)width, (float)height);
+
+
+                return min + " x " + max;
+            }
+        }
 
         /// <summary>
         /// The margin around the window for a dropshadow
@@ -182,7 +220,9 @@ namespace Hyperdrive.UI.ViewModel
         {
 
             mWindow = window;
+            pdfPanel = ((MainWindow)mWindow).MoonPdfPanel;
 
+            pdfPanel.CurrentPageNumberChanged += moonPdfPanel_PageNumberChanged;
             // Listen out for the window resizing
             mWindow.StateChanged += (sender, e) =>
             {
@@ -214,11 +254,22 @@ namespace Hyperdrive.UI.ViewModel
 
         #region Private Methods
 
+        void moonPdfPanel_PageNumberChanged(object sender, EventArgs e)
+        {
+            OnPropertyChanged(nameof(CurrentPageNumber));
+            OnPropertyChanged(nameof(CurrentPageLabel));
+            OnPropertyChanged(nameof(CurrentPageSize));
+        }
+
         private void CloseFile()
         {
+            pdfPanel.Unload();
             filePath = "";
             OnPropertyChanged(nameof(FilePath));
             OnPropertyChanged(nameof(bIsFileOpen));
+            OnPropertyChanged(nameof(CurrentPageNumber));
+            OnPropertyChanged(nameof(CurrentPageLabel));
+            OnPropertyChanged(nameof(CurrentPageSize));
         }
 
         public void BusinessCard8Up()
