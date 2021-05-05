@@ -45,6 +45,17 @@
             <MenuItem Header="_Edit" IsEnabled="False" >
                 <MenuItem Header="Preferences" />
             </MenuItem>
+            <!-- View Menu -->
+            <MenuItem Header="_View" >
+                <MenuItem Header="Zoom In" Command="{Binding ViewZoomIn}" IsEnabled="{Binding bIsFileOpen}" />
+                <MenuItem Header="Zoom Out" Command="{Binding ViewZoomOut}" IsEnabled="{Binding bIsFileOpen}" />
+                <Separator />
+                <MenuItem Header="Fit Width" Command="{Binding ViewFitWidth}" IsEnabled="{Binding bIsFileOpen}" />
+                <MenuItem Header="Fit Height" Command="{Binding ViewFitHeight}" IsEnabled="{Binding bIsFileOpen}" />
+                <Separator />
+                <MenuItem Header="Rotate Left" Command="{Binding ViewRotateLeft}" IsEnabled="{Binding bIsFileOpen}" />
+                <MenuItem Header="Rotate Right" Command="{Binding ViewRotateRight}" IsEnabled="{Binding bIsFileOpen}" />
+            </MenuItem>
             <!-- Tools Menu -->
             <MenuItem Header="_Tools" >
                 <MenuItem Header="Step and Repeat" >
@@ -61,10 +72,6 @@
                 <MenuItem Header="Scale 50%" Click="ScaleDownTest_Click" IsEnabled="{Binding bIsFileOpen}" />
                 <Separator />
                 <MenuItem Header="Page Sizes in Folder" Click="PageSizesInFolder_Click" />
-            </MenuItem>
-            <!-- View Menu -->
-            <MenuItem Header="_View" IsEnabled="False" >
-                <MenuItem x:Name="MenuBlank" Header="Blank" />
             </MenuItem>
             <!-- Window Menu -->
             <MenuItem Header="_Window" IsEnabled="False" >
