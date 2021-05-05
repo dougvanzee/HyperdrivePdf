@@ -146,8 +146,8 @@ namespace Hyperdrive.UI.Views.SideToolbars
 
                 if (!sizeFound)
                 {
-                    float rWidth = (float)Decimal.Round((Decimal)width, 1);
-                    float rHeight = (float)Decimal.Round((Decimal)height, 1);
+                    float rWidth = (float)Decimal.Round((Decimal)width, 2);
+                    float rHeight = (float)Decimal.Round((Decimal)height, 2);
                     pageSizes.Add(new PageSizeCount(Math.Min(rWidth, rHeight), Math.Max(rWidth, rHeight)));
                     pageSizes.Last().AddToCount();
                 }
