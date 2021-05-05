@@ -126,7 +126,7 @@ namespace Hyperdrive.UI.ViewModel
         {
             get
             {
-                if (CurrentPageNumber == -1)
+                if (CurrentPageNumber == -1 || !bIsFileOpen)
                     return "";
 
                 PdfDocument pdfDoc = new PdfDocument(new PdfReader(FilePath));
