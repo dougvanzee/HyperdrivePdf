@@ -210,6 +210,18 @@ namespace Hyperdrive.UI.ViewModel
 
         public ICommand BusinessCard8upCommand { get; set; }
 
+        public ICommand ViewZoomIn { get; set; }
+
+        public ICommand ViewZoomOut { get; set; }
+
+        public ICommand ViewFithWidth { get; set; }
+
+        public ICommand ViewFitHeight { get; set; }
+
+        public ICommand ViewRotateLeft { get; set; }
+
+        public ICommand ViewRotateRight { get; set; }
+
         public string Title;
         #endregion
 
@@ -237,6 +249,13 @@ namespace Hyperdrive.UI.ViewModel
             CloseFileCommand = new RelayCommand(() => CloseFile());
 
             BusinessCard8upCommand = new RelayCommand(() => BusinessCard8Up());
+
+            ViewZoomIn = new RelayCommand(() => pdfPanel.ZoomIn());
+            ViewZoomOut = new RelayCommand(() => pdfPanel.ZoomOut());
+            ViewFithWidth = new RelayCommand(() => pdfPanel.ZoomToWidth());
+            ViewFitHeight = new RelayCommand(() => pdfPanel.ZoomToHeight());
+            ViewRotateLeft = new RelayCommand(() => pdfPanel.RotateLeft());
+            ViewRotateRight = new RelayCommand(() => pdfPanel.RotateRight());
 
             // Fix window resize issue
             var resizer = new WindowResizer(mWindow);
