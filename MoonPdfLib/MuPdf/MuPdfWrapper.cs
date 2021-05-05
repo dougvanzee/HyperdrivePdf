@@ -228,7 +228,7 @@ namespace MoonPdfLib.MuPdf
 
 		private static class NativeMethods
 		{
-			const string DLL = "C:/Users/thevfxguy13/Downloads/MoonPdf-0.3.0-x86/libmupdf.dll";
+			const string DLL = "libmupdf.dll";
 
 			[DllImport(DLL, EntryPoint = "fz_new_context", CallingConvention = CallingConvention.Cdecl)]
 			public static extern IntPtr NewContext(IntPtr alloc, IntPtr locks, uint max_store);
