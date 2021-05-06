@@ -147,7 +147,9 @@
     <Resource Include="Images\Logo\Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Logo\Logo.png" />
+    <Resource Include="Images\Logo\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Readme\DirectoryPageCountErrorReport.PNG" />

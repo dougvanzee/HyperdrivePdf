@@ -42,7 +42,7 @@
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -340,7 +340,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Logo\Icon.ico" />
-    <Resource Include="Images\Logo\Logo.png" />
+    <Resource Include="Images\Logo\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Hyperdrive.Core\Hyperdrive.Core.csproj">
