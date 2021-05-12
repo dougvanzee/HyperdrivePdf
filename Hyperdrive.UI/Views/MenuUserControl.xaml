@@ -61,7 +61,6 @@
                 <MenuItem Header="Step and Repeat" >
                     <MenuItem Header="Custom Step and Repeat" IsEnabled="False" />
                     <Separator />
-                    <MenuItem Header="Presets"  />
                     <MenuItem Header="Business Card 8up" Click="BusinessCard8Up_Click" IsEnabled="{Binding bIsFileOpen}" />
                     <MenuItem Header="2up Letter" IsEnabled="False" />
                     <MenuItem Header="2up 11x17" IsEnabled="False" />
