@@ -138,7 +138,7 @@
                         <RotateTransform Angle="90" />
                     </ToggleButton.LayoutTransform>
                 </ToggleButton>
-                <ToggleButton Content="Resizer" HorizontalAlignment="Right" BorderThickness="0" Margin="0 5"
+                <ToggleButton IsEnabled="False" Content="Resizer" HorizontalAlignment="Right" BorderThickness="0" Margin="0 5"
                             Width="65" Height="28" Background="Transparent" Foreground="{StaticResource ForegroundLightBrush}" Style="{DynamicResource ToggleButtonStyle1}"
                               Click="LetterTabloidResizer_Click" IsChecked="{Binding bLetterTabloidResizerOpen, Mode=OneWay}">
                     <ToggleButton.LayoutTransform>
