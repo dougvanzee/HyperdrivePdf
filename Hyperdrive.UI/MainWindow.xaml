@@ -71,7 +71,7 @@
                                     </DockPanel>
 
                                     <!-- The second menu bar -->
-                                    <Grid Visibility="Collapsed" Grid.Row="1" Margin="10 2" >
+                                    <Grid Grid.Row="1" Margin="10 2" >
 
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
@@ -80,13 +80,11 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Menu Grid.Column="0" Background="{StaticResource BackgroundMainBrush}">
-                                            <MenuItem Header="Open" />
-                                            <MenuItem Header="Save"/>
-                                            <MenuItem Header="Print"/>
-                                            <MenuItem Header="Save"/>
+                                            <MenuItem Header="+" FontSize="24" FontWeight="Black" Command="{Binding ViewZoomIn}" IsEnabled="{Binding bIsFileOpen}" />
+                                            <MenuItem Header="-" FontSize="24" FontWeight="Black" Command="{Binding ViewZoomOut}" IsEnabled="{Binding bIsFileOpen}" />
                                         </Menu>
 
-                                        <Menu Grid.Column="2" Background="{StaticResource BackgroundMainBrush}">
+                                        <Menu Visibility="Collapsed" Grid.Column="2" Background="{StaticResource BackgroundMainBrush}">
                                             <MenuItem Header="Open" />
                                             <MenuItem Header="Save"/>
                                             <MenuItem Header="Print"/>
