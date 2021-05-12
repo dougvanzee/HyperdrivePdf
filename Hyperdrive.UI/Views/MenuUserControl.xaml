@@ -78,7 +78,7 @@
             </MenuItem>
             <!-- Help Menu -->
             <MenuItem Header="Help" WindowChrome.IsHitTestVisibleInChrome="True">
-                <MenuItem x:Name="MenuAbout" Header="About" WindowChrome.IsHitTestVisibleInChrome="True"  Command="{Binding NewTabCommand}"/>
+                <MenuItem Click="MenuAbout_Click" x:Name="MenuAbout" Header="About" WindowChrome.IsHitTestVisibleInChrome="True"  Command="{Binding NewTabCommand}"/>
             </MenuItem>
 
         </Menu>

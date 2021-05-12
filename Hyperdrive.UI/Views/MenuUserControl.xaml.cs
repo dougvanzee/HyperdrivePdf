@@ -138,5 +138,12 @@ namespace Hyperdrive.UI.Views
             loadingScreenWindow.Show();
             */
         }
+
+        private void MenuAbout_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Created by Doug Van Zee\n\nwww.dougvanzee.com\nwww.displacemedia.com\n\ndmvanzee@gmail.com",
+                      "About HyperdrivePdf                                                                 ",
+                      MessageBoxButton.OK);
+        }
     }
 }
