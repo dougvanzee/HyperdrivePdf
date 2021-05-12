@@ -68,7 +68,7 @@
                     <MenuItem Header="2up 12x18" IsEnabled="False" />
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="Resizer" Click="Resizer_Click" />
+                <MenuItem Header="Resizer" Click="Resizer_Click" IsEnabled="False" />
                 <MenuItem Header="Scale 50%" Click="ScaleDownTest_Click" IsEnabled="{Binding bIsFileOpen}" />
                 <Separator />
                 <MenuItem Header="Page Sizes in Folder" Click="PageSizesInFolder_Click" />

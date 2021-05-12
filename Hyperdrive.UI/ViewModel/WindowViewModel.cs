@@ -293,9 +293,7 @@ namespace Hyperdrive.UI.ViewModel
 
         public void BusinessCard8Up()
         {
-            StepAndRepeatManager stepAndRepeatManager = new StepAndRepeatManager();
-            stepAndRepeatManager.BusinessCard8Up(filePath, fileOutPath);
-            // stepAndRepeatManager.GetPageCount(@filePath, @fileOutPath);
+            
         }
 
         public void ScaleDownTest()
