@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows.Controls;
 using Windows.Media.SpeechRecognition;
 
 namespace Hyperdrive.Core.StepAndRepeat
@@ -77,21 +78,23 @@ namespace Hyperdrive.Core.StepAndRepeat
 
                     float offsetY = -90;
 
-                    canvas.AddXObject(pageCopy, 160 + offsetX + deltaX, 126 + offsetY + deltaY);
+                    // canvas.AddXObject(pageCopy, 160 + offsetX + deltaX, 126 + offsetY + deltaY);
 
-                    canvas.AddXObject(pageCopy, 450 + offsetX + deltaX, 126 + offsetY + deltaY);
+                    canvas.AddXObjectAt(pageCopy, 160 + offsetX, 126 + offsetY);
 
-                    canvas.AddXObject(pageCopy, 160 + offsetX + deltaX, 306 + offsetY + deltaY);
+                    canvas.AddXObjectAt(pageCopy, 450 + offsetX, 126 + offsetY);
 
-                    canvas.AddXObject(pageCopy, 450 + offsetX + deltaX, 306 + offsetY + deltaY);
+                    canvas.AddXObjectAt(pageCopy, 160 + offsetX, 306 + offsetY);
 
-                    canvas.AddXObject(pageCopy, 160 + offsetX + deltaX, 486 + offsetY + deltaY);
+                    canvas.AddXObjectAt(pageCopy, 450 + offsetX, 306 + offsetY);
 
-                    canvas.AddXObject(pageCopy, 450 + offsetX + deltaX, 486 + offsetY + deltaY);
+                    canvas.AddXObjectAt(pageCopy, 160 + offsetX, 486 + offsetY);
 
-                    canvas.AddXObject(pageCopy, 160 + offsetX + deltaX, 666 + offsetY + deltaY);
+                    canvas.AddXObjectAt(pageCopy, 450 + offsetX, 486 + offsetY);
 
-                    canvas.AddXObject(pageCopy, 450 + offsetX + deltaX, 666 + offsetY + deltaY);
+                    canvas.AddXObjectAt(pageCopy, 160 + offsetX, 666 + offsetY);
+
+                    canvas.AddXObjectAt(pageCopy, 450 + offsetX, 666 + offsetY);
                 }
                 
                 // close the documents
