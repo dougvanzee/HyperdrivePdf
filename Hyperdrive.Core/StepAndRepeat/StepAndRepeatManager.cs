@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Controls;
+// using Windows.Data.Pdf;
 using Windows.Media.SpeechRecognition;
 
 namespace Hyperdrive.Core.StepAndRepeat
@@ -34,19 +35,29 @@ namespace Hyperdrive.Core.StepAndRepeat
 
                     PdfPage origPage = sourcePdf.GetPage(i);
 
-                    // Crop original page
+                    Rectangle pageSize = origPage.GetPageSize();
+                    
+                    float pageX = (pageSize.GetWidth() - pageSize.GetX()) / 72;
+                    float pageY = (pageSize.GetHeight() - pageSize.GetY()) / 72;
 
                     float x = origPage.GetCropBox().GetX();
-
-                    float width = origPage.GetCropBox().GetWidth();
-
                     float y = origPage.GetCropBox().GetY();
-
+                    float width = origPage.GetCropBox().GetWidth();
                     float height = origPage.GetCropBox().GetHeight();
 
-                    float deltaX = (288 - (width - x)) / 2;
+                    float deltaX;
+                    float deltaY;
 
-                    float deltaY = (180 - (height - y)) / 2;
+                    if (pageX >= pageY)
+                    {
+                        deltaX = (288 - (width - x)) / 2;
+                        deltaY = (180 - (height - y)) / 2;
+                    }
+                    else
+                    {
+                        deltaX = (180 - (width - x)) / 2;
+                        deltaY = (288 - (height - y)) / 2;
+                    }
 
                     origPage.SetCropBox(new Rectangle(x - deltaX, y - deltaY, width + (2 * deltaX), height + (2 * deltaY)));
 
@@ -54,47 +65,82 @@ namespace Hyperdrive.Core.StepAndRepeat
 
                     PdfFormXObject pageCopy = origPage.CopyAsFormXObject(pdf);
 
-                    Rectangle orig = origPage.GetPageSize();
+                    PdfPage page = pdf.AddNewPage(nUpPageSize);
+                    PdfCanvas canvas = new PdfCanvas(page);
 
                     //N-up page
 
-                    PdfPage page = pdf.AddNewPage(nUpPageSize);
+                    // Place horizontal BCs
+                    if (pageX >= pageY)
+                    {
+                        // Horizontal BC with 0 rotation
+                        if (origPage.GetRotation() == 0 || origPage.GetRotation() == 270)
+                        {
+                            for (int j = 1; j <= 8; j++)
+                            {
+                                int xx = j % 2 == 1 ? 18 : 306;
+                                int yy = 180 * (int)(Math.Ceiling(Convert.ToDecimal(j) / 2)) - 144;
 
-                    PdfCanvas canvas = new PdfCanvas(page);
+                                AffineTransform affineTransform = AffineTransform.GetTranslateInstance(deltaX + xx, deltaY + yy);
+                                float[] matrix = new float[6];
+                                affineTransform.GetMatrix(matrix);
 
-                    //Scale page
-                    /*
-                    AffineTransform transformationMatrix = AffineTransform.GetScaleInstance(
+                                canvas.AddXObjectWithTransformationMatrix(pageCopy, matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]);
+                            }
+                        }
+                        // Horizontal BC with 180 rotation
+                        else
+                        {
+                            for (int j = 1; j <= 8; j++)
+                            {
+                                int xx = j % 2 == 1 ? 18 : 306;
+                                int yy = 180 * (int)(Math.Ceiling(Convert.ToDecimal(j) / 2)) - 144;
 
-                        nUpPageSize.GetWidth() / orig.GetWidth() / 2f,
+                                AffineTransform affineTransform = AffineTransform.GetRotateInstance(Math.PI);
+                                affineTransform.Concatenate(AffineTransform.GetTranslateInstance(-612 + deltaX + xx, -792 + deltaY + yy));
+                                float[] matrix = new float[6];
+                                affineTransform.GetMatrix(matrix);
 
-                        nUpPageSize.GetHeight() / orig.GetHeight() / 2f);
+                                canvas.AddXObjectWithTransformationMatrix(pageCopy, matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]);
+                            }
+                        }
+                    }
+                    // Place vertical BCs
+                    else
+                    {
+                        // Vertical BC with 90 rotation
+                        if (origPage.GetRotation() == 0 || origPage.GetRotation() == 90)
+                        {
+                            for (int j = 1; j <= 8; j++)
+                            {
+                                int xx = j % 2 == 1 ? 18 : 306;
+                                int yy = 180 * (int)(Math.Ceiling(Convert.ToDecimal(j) / 2)) - 144;
 
-                    canvas.ConcatMatrix(transformationMatrix);
-                    */
-                    //Add pages to N-up page
+                                AffineTransform affineTransform = AffineTransform.GetRotateInstance(3 * Math.PI / 2);
+                                affineTransform.Concatenate(AffineTransform.GetTranslateInstance(deltaY - yy - 180, xx + deltaX));
+                                float[] matrix = new float[6];
+                                affineTransform.GetMatrix(matrix);
 
-                    float offsetX = -144;
+                                canvas.AddXObjectWithTransformationMatrix(pageCopy, matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]);
+                            }
+                        }
+                        // Vertical BC with 270 rotation
+                        else
+                        {
+                            for (int j = 1; j <= 8; j++)
+                            {
+                                int xx = j % 2 == 1 ? 18 : 306;
+                                int yy = 180 * (int)(Math.Ceiling(Convert.ToDecimal(j) / 2)) - 144;
 
-                    float offsetY = -90;
+                                AffineTransform affineTransform = AffineTransform.GetRotateInstance(Math.PI / 2);
+                                affineTransform.Concatenate(AffineTransform.GetTranslateInstance(deltaY - yy - 180 + 792, xx + deltaX - 612));
+                                float[] matrix = new float[6];
+                                affineTransform.GetMatrix(matrix);
 
-                    // canvas.AddXObject(pageCopy, 160 + offsetX + deltaX, 126 + offsetY + deltaY);
-
-                    canvas.AddXObjectAt(pageCopy, 160 + offsetX, 126 + offsetY);
-
-                    canvas.AddXObjectAt(pageCopy, 450 + offsetX, 126 + offsetY);
-
-                    canvas.AddXObjectAt(pageCopy, 160 + offsetX, 306 + offsetY);
-
-                    canvas.AddXObjectAt(pageCopy, 450 + offsetX, 306 + offsetY);
-
-                    canvas.AddXObjectAt(pageCopy, 160 + offsetX, 486 + offsetY);
-
-                    canvas.AddXObjectAt(pageCopy, 450 + offsetX, 486 + offsetY);
-
-                    canvas.AddXObjectAt(pageCopy, 160 + offsetX, 666 + offsetY);
-
-                    canvas.AddXObjectAt(pageCopy, 450 + offsetX, 666 + offsetY);
+                                canvas.AddXObjectWithTransformationMatrix(pageCopy, matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]);
+                            }
+                        }
+                    }
                 }
                 
                 // close the documents
