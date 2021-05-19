@@ -82,7 +82,8 @@ namespace Hyperdrive.Core.Utils
                 Paragraph header = new Paragraph("THIS PAGE INTENTIONALLY LEFT BLANK")
                    .SetTextAlignment(TextAlignment.CENTER)
                    .SetFontSize(12)
-                   .SetFixedPosition(0, height / 2, width);
+                   .SetFixedPosition(0, height / 2, width)
+                   .SetBold();
 
                 // New line
                 Paragraph newline = new Paragraph(new Text("\n"));
