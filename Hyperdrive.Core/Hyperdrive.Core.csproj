@@ -136,6 +136,7 @@
     <Compile Include="Stats\PageSizeCount\PageSizeCount.cs" />
     <Compile Include="Stats\PageSizeCount\CounterDirectory.cs" />
     <Compile Include="Stats\PageSizeCount\Counter.cs" />
+    <Compile Include="Utils\BlankPage.cs" />
     <Compile Include="Utils\PageSizeType.cs" />
     <Compile Include="Resizer\Resizer.cs" />
     <Compile Include="Utils\ScaleDown.cs" />
@@ -145,7 +146,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Logo\Icon.ico" />
+    <Resource Include="Images\Logo\Icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Logo\Logo.png">
