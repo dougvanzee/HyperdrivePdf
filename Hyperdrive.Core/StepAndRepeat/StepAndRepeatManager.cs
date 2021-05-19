@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows.Controls;
-// using Windows.Data.Pdf;
 using Windows.Media.SpeechRecognition;
 
 namespace Hyperdrive.Core.StepAndRepeat
