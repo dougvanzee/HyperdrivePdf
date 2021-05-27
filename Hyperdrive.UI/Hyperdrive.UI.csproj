@@ -186,9 +186,6 @@
     <Compile Include="Views\MenuUserControl.xaml.cs">
       <DependentUpon>MenuUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PdfViewer.xaml.cs">
-      <DependentUpon>PdfViewer.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SideToolbar.xaml.cs">
       <DependentUpon>SideToolbar.xaml</DependentUpon>
     </Compile>
@@ -257,10 +254,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MenuUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PdfViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
