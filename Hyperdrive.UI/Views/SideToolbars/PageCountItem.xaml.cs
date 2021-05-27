@@ -14,7 +14,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Drawing;
-using Windows.UI.Xaml;
 
 namespace Hyperdrive.UI.Views.SideToolbars
 {
