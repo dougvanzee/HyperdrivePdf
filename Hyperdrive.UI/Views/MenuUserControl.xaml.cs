@@ -10,15 +10,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Hyperdrive.Core.Stats.PageSizeCount;
 using Hyperdrive.Core.StepAndRepeat;
+using iText.Kernel.Pdf;
+using iText.Forms;
+using Hyperdrive.Core.Utils;
+using System.IO;
+// using Windows.UI.Xaml;
 
 namespace Hyperdrive.UI.Views
 {
@@ -124,6 +121,38 @@ namespace Hyperdrive.UI.Views
             ResizerWindow resizerWindow = new ResizerWindow();
             resizerWindow.Owner = parentWindow;
             resizerWindow.ShowDialog();
+        }
+
+        private void InsertBlank_Click(object sender, RoutedEventArgs e)
+        {
+            string src = ((WindowViewModel)(this.DataContext)).FilePath;
+            string dest = ((WindowViewModel)(this.DataContext)).FilePath + "_blank.pdf";
+            byte[] blankPage = BlankPage.GetBlankPage(612, 792);
+            using (MemoryStream memoryStream = new MemoryStream(blankPage))
+            {
+                PdfDocument pdfDoc = new PdfDocument(new PdfReader(src), new PdfWriter(dest));
+                PdfDocument cover = new PdfDocument(new PdfReader(memoryStream));
+                cover.CopyPagesTo(1, 1, pdfDoc, 5, new PdfPageFormCopier());
+
+                cover.Close();
+                pdfDoc.Close();
+            }
+        }
+
+        private void InsertIntentionallyBlank_Click(object sender, RoutedEventArgs e)
+        {
+            string src = ((WindowViewModel)(this.DataContext)).FilePath;
+            string dest = ((WindowViewModel)(this.DataContext)).FilePath + "_intentionally.pdf";
+            byte[] blankPage = BlankPage.GetIntentionallyLeftBlankPage(612, 792);
+            using (MemoryStream memoryStream = new MemoryStream(blankPage))
+            {
+                PdfDocument pdfDoc = new PdfDocument(new PdfReader(src), new PdfWriter(dest));
+                PdfDocument cover = new PdfDocument(new PdfReader(memoryStream));
+                cover.CopyPagesTo(1, 1, pdfDoc, 5, new PdfPageFormCopier());
+
+                cover.Close();
+                pdfDoc.Close();
+            }
         }
 
         private void PageSizesInFolder_Click(object sender, RoutedEventArgs e)
