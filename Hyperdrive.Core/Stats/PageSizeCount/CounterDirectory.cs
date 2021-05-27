@@ -647,10 +647,12 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                             565, 760, i, TextAlignment.RIGHT,
                             VerticalAlignment.TOP, 0);
 
+                        /*
                         iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory
                             .Create(@"../../Images/Logo/Logo.png"))
                             .SetTextAlignment(TextAlignment.CENTER).SetHeight(36).SetWidth(36).SetFixedPosition(i, 40, 735);
                         document.Add(img);
+                        */
 
                         document.ShowTextAligned(new Paragraph(String
                             .Format("Hyperdrive PDF")),
@@ -686,10 +688,12 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                         565, 760, i, TextAlignment.RIGHT,
                         VerticalAlignment.TOP, 0);
 
+                    /*
                     iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory
                         .Create(@"../../Images/Logo/Logo.png"))
                         .SetTextAlignment(TextAlignment.CENTER).SetHeight(36).SetWidth(36).SetFixedPosition(i, 40, 735);
                     document.Add(img);
+                    */
 
                     document.ShowTextAligned(new Paragraph(String
                         .Format("Hyperdrive PDF")),
