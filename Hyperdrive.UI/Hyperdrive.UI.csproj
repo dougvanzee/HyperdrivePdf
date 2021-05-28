@@ -335,9 +335,9 @@
     <Resource Include="Images\Logo\Icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Logo\Logo.png">
+    <EmbeddedResource Include="Images\Logo\Logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Hyperdrive.Core\Hyperdrive.Core.csproj">

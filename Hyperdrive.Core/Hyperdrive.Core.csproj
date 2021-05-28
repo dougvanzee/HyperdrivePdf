@@ -151,9 +151,9 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Logo\Logo.png">
+    <EmbeddedResource Include="Images\Logo\Logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Readme\DirectoryPageCountErrorReport.PNG" />
