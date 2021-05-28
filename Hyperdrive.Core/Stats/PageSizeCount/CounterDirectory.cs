@@ -679,28 +679,6 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                 PdfDocument pdf = new PdfDocument(reader, writer);
                 Document document = new Document(pdf, new PageSize(612, 792));
 
-                // Page numbers
-                int n = pdf.GetNumberOfPages();
-                for (int i = 1; i <= n; i++)
-                {
-                    document.ShowTextAligned(new Paragraph(String
-                        .Format("Page " + i + " of " + n)),
-                        565, 760, i, TextAlignment.RIGHT,
-                        VerticalAlignment.TOP, 0);
-                                        
-                    var b = GetResourceAsByteArray("Hyperdrive.Core.Images.Logo.Logo.png");
-
-                    iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory
-                        .Create(b))
-                        .SetTextAlignment(TextAlignment.CENTER).SetHeight(36).SetWidth(36).SetFixedPosition(i, 40, 735);
-                    document.Add(img);
-                    
-                    document.ShowTextAligned(new Paragraph(String
-                        .Format("HyperdrivePDF")),
-                        80, 765, i, TextAlignment.LEFT,
-                        VerticalAlignment.TOP, 0);
-                }
-
                 document.Close();
 
             }
