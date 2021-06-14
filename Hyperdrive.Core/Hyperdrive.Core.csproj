@@ -128,7 +128,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ILoadingScreenWindow.cs" />
+    <Compile Include="Interfaces\IProgressBarWindow.cs" />
     <Compile Include="iTextExtensions\PageSizeExtension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

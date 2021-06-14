@@ -98,7 +98,7 @@ namespace Hyperdrive.UI.Views
         private void GenerateReport_Click(object sender, RoutedEventArgs e)
         {
             CounterDirectory counterDirectory = new CounterDirectory(FolderPath, ReportPath, IncludeSubdirectories, IncludeNonPdfs);
-            LoadingScreenWindow loadingScreenWindow = new LoadingScreenWindow(Owner, counterDirectory);
+            ProgressBarWindow loadingScreenWindow = new ProgressBarWindow(Owner, counterDirectory);
             counterDirectory.PrintPageSizeCounts();
             // this.Visibility = Visibility.Hidden;
             loadingScreenWindow.Show();

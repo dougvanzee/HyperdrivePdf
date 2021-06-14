@@ -24,7 +24,7 @@ using Hyperdrive.Core.Interfaces;
 
 namespace Hyperdrive.Core.Stats.PageSizeCount
 {
-    public class CounterDirectory : ILoadingScreenWindow
+    public class CounterDirectory : IProgressBarWindow
     {
         public class PageSizeCountError
         {

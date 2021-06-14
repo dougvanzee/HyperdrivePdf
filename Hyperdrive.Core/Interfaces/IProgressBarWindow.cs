@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hyperdrive.Core.Interfaces
 {
-    public interface ILoadingScreenWindow
+    public interface IProgressBarWindow
     {
         event EventHandler CurrentProgressChanged;
         event EventHandler MaxProgressChanged;

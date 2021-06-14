@@ -23,9 +23,9 @@ namespace Hyperdrive.UI.Views
     /// <summary>
     /// Interaction logic for LoadingScreenWindow.xaml
     /// </summary>
-    public partial class LoadingScreenWindow : Window, INotifyPropertyChanged
+    public partial class ProgressBarWindow : Window, INotifyPropertyChanged
     {
-        private ILoadingScreenWindow LinkedProcess;
+        private IProgressBarWindow LinkedProcess;
 
         public int CurrentProgress { get; set; } = 0;
         public int MaxProgress { get; set; } = 1;
@@ -36,7 +36,7 @@ namespace Hyperdrive.UI.Views
         public Visibility StatusVisibility { get; set; } = Visibility.Visible;
 
 
-        public LoadingScreenWindow(Window owner, ILoadingScreenWindow linkedProcess, string windowTitle = "", int maxProgress = 1, string status = "")
+        public ProgressBarWindow(Window owner, IProgressBarWindow linkedProcess, string windowTitle = "", int maxProgress = 1, string status = "")
         {
             InitializeComponent();
             DataContext = this;

@@ -181,8 +181,8 @@
     <Compile Include="Views\CounterDirectoryWindow.xaml.cs">
       <DependentUpon>CounterDirectoryWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LoadingScreenWindow.xaml.cs">
-      <DependentUpon>LoadingScreenWindow.xaml</DependentUpon>
+    <Compile Include="Views\ProgressBarWindow.xaml.cs">
+      <DependentUpon>ProgressBarWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MenuUserControl.xaml.cs">
       <DependentUpon>MenuUserControl.xaml</DependentUpon>
@@ -250,7 +250,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LoadingScreenWindow.xaml">
+    <Page Include="Views\ProgressBarWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
