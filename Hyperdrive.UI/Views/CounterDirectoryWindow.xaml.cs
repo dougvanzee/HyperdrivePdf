@@ -1,4 +1,5 @@
-﻿using Hyperdrive.Core.Stats.PageSizeCount;
+﻿using Hyperdrive.Core.Interfaces;
+using Hyperdrive.Core.Stats.PageSizeCount;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -96,10 +98,14 @@ namespace Hyperdrive.UI.Views
         private void GenerateReport_Click(object sender, RoutedEventArgs e)
         {
             CounterDirectory counterDirectory = new CounterDirectory(FolderPath, ReportPath, IncludeSubdirectories, IncludeNonPdfs);
+            LoadingScreenWindow loadingScreenWindow = new LoadingScreenWindow(Owner, counterDirectory);
             counterDirectory.PrintPageSizeCounts();
-            LoadingScreenWindow loadingScreenWindow = new LoadingScreenWindow(this, counterDirectory);
-            this.Visibility = Visibility.Hidden;
+            // this.Visibility = Visibility.Hidden;
             loadingScreenWindow.Show();
+            this.Dispatcher.Invoke(() =>
+            {
+                this.Close();
+            });
         }
     }
 }

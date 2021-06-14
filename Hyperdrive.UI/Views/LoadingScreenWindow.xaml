@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
-        Title="{Binding windowTitle}" Height="145" Width="500">
+        Title="{Binding WindowTitle}" Height="145" Width="500">
 
     <Border Background="{StaticResource BackgroundDarkBrush}">
         <Grid Margin="15 15 15 10" >
@@ -16,10 +16,15 @@
                 <RowDefinition Height="25" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <ProgressBar Grid.Row="0" Minimum="0" Maximum="{Binding maxProgress}" Value="{Binding currentProgress}" Name="pbStatus" />
-            <TextBlock Grid.Row="0" Text="{Binding progressAsString}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding textVisibility}" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ProgressBar Grid.Row="0" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding MaxProgress}" Value="{Binding CurrentProgress}" Name="pbStatus" />
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Progress}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding ProgressVisibility}" />
 
-            <Button Click="Button_Click" Grid.Row="1" Content="Cancel" Height="30" HorizontalAlignment="Right" Margin="0 15 0 0" Padding="5 2 5 5" VerticalContentAlignment="Center" />
+            <Label Grid.Row="1" Grid.Column="0" Content="{Binding StatusText}" VerticalAlignment="Center" Foreground="White" Margin="0 15 0 0" />
+            <Button Click="Button_Click" Grid.Row="1" Grid.Column="1" Content="Cancel" Height="30" HorizontalAlignment="Right" Margin="0 15 0 0" Padding="5 2 5 5" VerticalContentAlignment="Center" />
         </Grid>
     </Border>
 </Window>

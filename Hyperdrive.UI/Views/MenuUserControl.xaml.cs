@@ -60,7 +60,6 @@ namespace Hyperdrive.UI.Views
         {
             // Prepare a dummy string, this would appear in the dialog
             string FileName = System.IO.Path.GetFileNameWithoutExtension(((WindowViewModel)(this.DataContext)).FilePath) + "_8up.pdf";
-
             SaveFileDialog sf = new SaveFileDialog();
             sf.Filter = "PDF (*.pdf)|*.pdf";
 

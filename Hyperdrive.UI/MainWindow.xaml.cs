@@ -22,6 +22,7 @@ using System.Windows.Interop;
 using System.Runtime.CompilerServices;
 using MoonPdfLib;
 using System.Windows.Controls.Primitives;
+using System.Windows.Automation;
 
 /// <summary>
 /// The name space for all UI related tasks

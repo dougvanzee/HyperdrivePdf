@@ -20,10 +20,11 @@ using System.Threading.Tasks;
 using System.Threading;
 using iText.Kernel.Pdf.Colorspace;
 using System.Reflection;
+using Hyperdrive.Core.Interfaces;
 
 namespace Hyperdrive.Core.Stats.PageSizeCount
 {
-    public class CounterDirectory
+    public class CounterDirectory : ILoadingScreenWindow
     {
         public class PageSizeCountError
         {
@@ -52,34 +53,85 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
         private List<string> filePaths;
 
-        private int fileListLength = 0;
+        private volatile int fileListLength = 0;
         private volatile int currentProgress = 0;
-        private volatile bool isDone = false;
+        private volatile string currentStatusText = "";
 
-        private object loadingScreen;
+        public int FileListLength
+        {
+            get
+            {
+                return fileListLength;
+            }
+            private set
+            {
+                fileListLength = value;
+                MaxProgressChanged(this, EventArgs.Empty);
+            }
+        }
+
+        public int CurrentProgress
+        {
+            get
+            {
+                return currentProgress;
+            }
+            private set
+            {
+                currentProgress = value;
+                try
+                {
+                    CurrentProgressChanged(this, EventArgs.Empty);
+                }
+                catch
+                {
+
+                }
+            }
+        }
+
+        public string CurrentStatusText {
+            get
+            {
+                return currentStatusText;
+            }
+            private set
+            {
+                currentStatusText = value;
+                try
+                {
+                    StatusChanged(this, EventArgs.Empty);
+                }
+                catch
+                {
+
+                }
+            }
+        }
 
         private CancellationTokenSource cts;
         CancellationToken token;
 
+        public event EventHandler CurrentProgressChanged;
+        public event EventHandler MaxProgressChanged;
+        public event EventHandler StatusChanged;
+        public event EventHandler ProgressCompelete;
+
         public CounterDirectory(string folderPath, string reportPath, bool includeSubdirectories, bool includeNonPdfs)
         {
+            CurrentStatusText = "Initializing...";
             rootFolderPath = folderPath;
             this.reportPath = reportPath;
 
             filePaths = GetFileList(includeSubdirectories, includeNonPdfs).ToList();
-            fileListLength = filePaths.Count();
         }
-
-        public int getNumberOfPdfs() { return fileListLength; }
-
-        public int getCurrentProgress() { return currentProgress; }
-
-        public bool getIsDone() { return isDone; }
 
         public async void PrintPageSizeCounts()
         {
             cts = new CancellationTokenSource();
             token = cts.Token;
+
+            CurrentStatusText = "Starting Program...";
             try
             {
                 await Task.Run(() => PrintAllPdfFilesInDirectory());
@@ -92,13 +144,21 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
         private async Task PrintAllPdfFilesInDirectory()
         {
-            pageSizeCounts = GetAllPageSizeCounts();
+            CurrentStatusText = "Gathering Files...";
+            FileListLength = filePaths.Count();
 
-            isDone = true;
+            CurrentStatusText = "Getting Page Sizes...";
+            pageSizeCounts = GetAllPageSizeCounts();
 
             token.ThrowIfCancellationRequested();
 
+            CurrentStatusText = "Generating PDF Report...";
             generatePdfReport();
+
+            CurrentStatusText = "Done";
+            ProgressCompelete(this, EventArgs.Empty);
+
+            // System.Diagnostics.Process.Start(reportPath);
         }
 
         private List<PageSizeCount> GetAllPageSizeCounts()
@@ -121,7 +181,8 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
                 bool bEndInError = false;
                 currentIndex++;
-                currentProgress = currentIndex;
+                CurrentProgress = currentIndex;
+                CurrentProgressChanged(this, EventArgs.Empty);
 
                 try
                 {
@@ -344,8 +405,6 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
             byte[] buffer2 = addHeaderToReport(buffer);
 
             writeReportToPdf(buffer2);
-            
-            System.Diagnostics.Process.Start(reportPath);
         }
 
         private byte[] getMainReportAsByte()
@@ -405,7 +464,7 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                 Cell cell32 = new Cell(1, 1)
                     .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
                     .SetTextAlignment(TextAlignment.CENTER)
-                    .Add(new Paragraph(getNumberOfPdfs().ToString()));
+                    .Add(new Paragraph(FileListLength.ToString()));
                 cellsList.Add(cell32);
 
                 Cell cell41 = new Cell(1, 1)
@@ -686,11 +745,6 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
             return true;
         }
 
-        public void Cancel()
-        {
-            cts.Cancel();
-        }
-
         private static double GetDirectorySize(string folderPath)
         {
             DirectoryInfo di = new DirectoryInfo(folderPath);
@@ -747,6 +801,27 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
                 resFilestream.Read(ba, 0, ba.Length);
                 return ba;
             }
+        }
+
+        public void LoadingScreenCancel()
+        {
+            CurrentStatusText = "Canceling...";
+            cts.Cancel();
+        }
+
+        public int LoadingScreenCurrentProgress()
+        {
+            return CurrentProgress;
+        }
+
+        public int LoadingScreenMaxProgress()
+        {
+            return FileListLength;
+        }
+
+        public string LoadingScreenStatusText()
+        {
+            return currentStatusText;
         }
     }
 }

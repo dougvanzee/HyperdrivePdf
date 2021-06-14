@@ -1,5 +1,6 @@
 ﻿using Hyperdrive.UI.ViewModel;
 using Hyperdrive.Core.Utils;
+using Hyperdrive.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,49 +25,30 @@ namespace Hyperdrive.UI.Views
     /// </summary>
     public partial class LoadingScreenWindow : Window, INotifyPropertyChanged
     {
-        private CounterDirectory counterDirectory;
-        public int currentProgress { get; set; } = 0;
+        private ILoadingScreenWindow LinkedProcess;
 
-        public int maxProgress { get; set; } = 1;
+        public int CurrentProgress { get; set; } = 0;
+        public int MaxProgress { get; set; } = 1;
+        public string Progress { get { return CurrentProgress + " of " + MaxProgress; } }
+        public Visibility ProgressVisibility { get; set; } = Visibility.Visible;
+        public string WindowTitle { get; set; } = "";
+        public string StatusText { get; set; } = "";
+        public Visibility StatusVisibility { get; set; } = Visibility.Visible;
 
-        public Visibility textVisibility { get; set; } = Visibility.Visible;
 
-        public string windowTitle { get; set; } = "Counter Directory";
-
-        public string progressAsString { get { return currentProgress + " of " + maxProgress; } }
-
-
-        public LoadingScreenWindow(Window owner, CounterDirectory counterDirectory)
+        public LoadingScreenWindow(Window owner, ILoadingScreenWindow linkedProcess, string windowTitle = "", int maxProgress = 1, string status = "")
         {
-            Owner = owner;
             InitializeComponent();
             DataContext = this;
-            this.counterDirectory = counterDirectory;
-
-            startTimer();
-        }
-
-        private void startTimer()
-        {
-            System.Timers.Timer aTimer = new System.Timers.Timer();
-            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            aTimer.Interval = 100;
-            aTimer.Enabled = true;
-        }
-
-        private void OnTimedEvent(object source, ElapsedEventArgs e)
-        {
-            maxProgress = counterDirectory.getNumberOfPdfs();
-            currentProgress = counterDirectory.getCurrentProgress();
-            OnPropertyChanged(nameof(maxProgress));
-            OnPropertyChanged(nameof(currentProgress));
-            OnPropertyChanged(nameof(progressAsString));
-            
-            if (counterDirectory.getIsDone())
-                Application.Current.Dispatcher.Invoke(new Action(() =>
-                {
-                    //exit();
-                }));
+            Owner = owner;
+            LinkedProcess = linkedProcess;
+            WindowTitle = windowTitle;
+            MaxProgress = maxProgress;
+            StatusText = status;
+            LinkedProcess.CurrentProgressChanged += CurrentProgressChanged;
+            LinkedProcess.MaxProgressChanged += MaxProgressChanged;
+            LinkedProcess.ProgressCompelete += ProgressComplete;
+            LinkedProcess.StatusChanged += StatusChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
@@ -76,25 +58,67 @@ namespace Hyperdrive.UI.Views
             PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
+        void CurrentProgressChanged(object sender, EventArgs e)
+        {
+            CurrentProgress = LinkedProcess.LoadingScreenCurrentProgress();
+        }
+
+        void MaxProgressChanged(object sender, EventArgs e)
+        {
+            MaxProgress = LinkedProcess.LoadingScreenMaxProgress();
+        }
+
+        void StatusChanged(object sender, EventArgs e)
+        {
+            StatusText = LinkedProcess.LoadingScreenStatusText();
+        }
+
+        void ProgressComplete(object sender, EventArgs e)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                this.Close();
+            });
+        }
+
         private void exit()
         {
-            cancelCount();
-            this.Close();
+            CancelLinkedProcess();
+            Owner.Dispatcher.Invoke(() =>
+            {
+                Owner.Close();
+            });
+            this.Dispatcher.Invoke(() =>
+            {
+                this.Close();
+            });
         }
 
-        private void cancelCount()
+        private void CancelLinkedProcess()
         {
-            counterDirectory.Cancel();
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            cancelCount();
+            LinkedProcess.LoadingScreenCancel();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             exit();
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+                CancelLinkedProcess();
+            }
+            catch
+            {
+
+            }
+            base.OnClosing(e);
+            if (null != Owner)
+            {
+                Owner.Activate();
+            }
         }
     }
 }
