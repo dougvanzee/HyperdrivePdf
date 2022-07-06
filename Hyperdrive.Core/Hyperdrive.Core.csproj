@@ -132,6 +132,7 @@
     <Compile Include="iTextExtensions\PageSizeExtension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\LicenseUtil.cs" />
     <Compile Include="StepAndRepeat\StepAndRepeatManager.cs" />
     <Compile Include="StepAndRepeat\StepAndRepeatSettings.cs" />
     <Compile Include="Stats\PageSizeCount\PageSizeCount.cs" />

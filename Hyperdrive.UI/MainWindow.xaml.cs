@@ -23,6 +23,7 @@ using System.Runtime.CompilerServices;
 using MoonPdfLib;
 using System.Windows.Controls.Primitives;
 using System.Windows.Automation;
+using Hyperdrive.Core.Security;
 
 /// <summary>
 /// The name space for all UI related tasks
@@ -41,6 +42,10 @@ namespace Hyperdrive.UI
             InitializeComponent();
 
             this.DataContext = new WindowViewModel(this);
+
+            LicenseUtil licenseUtil = new LicenseUtil();
+
+            licenseUtil.StartLicenseCheck();
         }
     }
 }
