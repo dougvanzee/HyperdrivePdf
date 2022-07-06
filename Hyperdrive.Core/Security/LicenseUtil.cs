@@ -12,7 +12,7 @@ namespace Hyperdrive.Core.Security
     {
         private int LocalLicenseStatus = -1;
         private int OnlineLicenseStatus = -1; // -1 = Doesn't exist, 0 = Inactive, 1 = Active 
-        private string LocalLicenseFilePath = @"C:\ProgramData\Displace\hyperdrive.lic";
+        private string LocalLicenseFilePath = @"C:\ProgramData\Displace\license.lic";
         private string OnlineLicenseFilePath = "http://www.displace.international/hyperdrive.lic";
 
         public async void StartLicenseCheck()
@@ -33,15 +33,19 @@ namespace Hyperdrive.Core.Security
             CheckOnlineLicense();
 
             if (OnlineLicenseStatus == 0)
-                Console.WriteLine("License has been deactivated and set local license to 0");
+                DeactivateLocalLicense();
 
             if (OnlineLicenseStatus == -1 && LocalLicenseStatus == -1)
-                Console.WriteLine("Neither license exists so close program");
+                LicenseDoesNotExist();
 
             if (OnlineLicenseStatus == 1 && LocalLicenseStatus == -1)
                 CreateLocalLicense();
 
-            if (OnlineLicenseStatus == -1 && LocalLicenseStatus > 0);
+            if (OnlineLicenseStatus == 1 && LocalLicenseStatus >= 0)
+                RunNormal();
+
+            if (OnlineLicenseStatus == -1 && LocalLicenseStatus >= 0)
+                RunTimeLimitMode();
 
         }
 
@@ -95,16 +99,39 @@ namespace Hyperdrive.Core.Security
 
         private void RunTimeLimitMode()
         {
-            LocalLicenseStatus--;
+            
 
-            if (LocalLicenseStatus == 0)
+            if (LocalLicenseStatus == 0 || LocalLicenseStatus == 1)
             {
-                Console.WriteLine("License is over and needs to connect to server");
+                File.WriteAllText(LocalLicenseFilePath, "0");
+                LocalLicenseStatus = 0;
+                Console.WriteLine("Temporary license is over and needs to connect to license server");
             }
             else
             {
+                LocalLicenseStatus--;
+                File.WriteAllText(LocalLicenseFilePath, LocalLicenseStatus.ToString());
                 Console.WriteLine("Display number of uses left");
             }
+        }
+
+        private void RunNormal()
+        {
+            File.WriteAllText(LocalLicenseFilePath, "6");
+            LocalLicenseStatus = 6;
+            Console.WriteLine("Run program as normal");
+        }
+
+        private void DeactivateLocalLicense()
+        {
+            File.WriteAllText(LocalLicenseFilePath, "0");
+            LocalLicenseStatus = 0;
+            Console.WriteLine("License has been deactivated and will no longer run.");
+        }
+
+        private void LicenseDoesNotExist()
+        {
+            Console.WriteLine("License has not been activated and we cannot reach the license server.")
         }
     }
 }
