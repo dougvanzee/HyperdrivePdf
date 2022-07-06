@@ -41,7 +41,7 @@ namespace Hyperdrive.Core.Security
             if (OnlineLicenseStatus == 1 && LocalLicenseStatus == -1)
                 CreateLocalLicense();
 
-            if (OnlineLicenseStatus == -1 && LocalLicenseStatus > 0)
+            if (OnlineLicenseStatus == -1 && LocalLicenseStatus > 0);
 
         }
 
