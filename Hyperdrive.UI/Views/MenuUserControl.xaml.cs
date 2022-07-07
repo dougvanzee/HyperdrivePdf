@@ -173,5 +173,12 @@ namespace Hyperdrive.UI.Views
                       "About HyperdrivePdf                                                                 ",
                       MessageBoxButton.OK);
         }
+
+        private void LicenseAbout_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("This software has been provided on a trial basis and the license can be revoked at anytime without notice. This product is currently in early development so not all features are guaranteed to work as expected.",
+                        "About HyperdrivePdf License                                                         ",
+                        MessageBoxButton.OK);
+        }
     }
 }
