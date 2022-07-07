@@ -131,7 +131,7 @@ namespace Hyperdrive.Core.Security
 
         private void LicenseDoesNotExist()
         {
-            Console.WriteLine("License has not been activated and we cannot reach the license server.")
+            Console.WriteLine("License has not been activated and we cannot reach the license server.");
         }
     }
 }
