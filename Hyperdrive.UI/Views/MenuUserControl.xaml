@@ -10,6 +10,7 @@
              d:DesignHeight="20" d:DesignWidth="800">
     <UserControl.Resources>
         <hui:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        <hui:BooleanAndConverter x:Key="booleanAndConverter" />
     </UserControl.Resources>
     <Grid Grid.Row="0" Panel.ZIndex="1">
         <Grid.ColumnDefinitions>
@@ -33,7 +34,14 @@
             <!-- File Menu -->
             <MenuItem Header="_File" x:Name="FileMenu" Padding="5, 0" WindowChrome.IsHitTestVisibleInChrome="True" >
 
-                <MenuItem x:Name="MenuFileOpen" Header="Open" Click="MenuFileOpen_Click" IsEnabled="{Binding bIsFileOpen, Converter={StaticResource InverseBooleanConverter}}" />
+                <MenuItem x:Name="MenuFileOpen" Header="Open" Click="MenuFileOpen_Click" >
+                    <MenuItem.IsEnabled>
+                        <MultiBinding Converter="{StaticResource booleanAndConverter}" >
+                            <Binding Path="bIsFileOpen" Converter="{StaticResource InverseBooleanConverter}" />
+                            <Binding Path="GlobalDisable" Converter="{StaticResource InverseBooleanConverter}" />
+                        </MultiBinding>
+                    </MenuItem.IsEnabled>
+                </MenuItem>
                 <MenuItem x:Name="MenuFileClose" Header="Close" Command="{Binding CloseFileCommand}" IsEnabled="{Binding bIsFileOpen}"/>
                 <Separator />
                 <MenuItem x:Name="MenuSave" Header="Save" IsEnabled="False"/>
@@ -42,11 +50,23 @@
                 <MenuItem x:Name="MenuExit" Header="Exit" Command="{Binding ExitApplicationCommand}" />
             </MenuItem>
             <!-- Edit Menu -->
-            <MenuItem Header="_Edit" IsEnabled="False" >
+            <MenuItem Header="_Edit" >
+                <MenuItem.IsEnabled>
+                    <MultiBinding Converter="{StaticResource booleanAndConverter}" >
+                        <Binding Path="bIsFileOpen" />
+                        <Binding Path="GlobalDisable" Converter="{StaticResource InverseBooleanConverter}" />
+                    </MultiBinding>
+                </MenuItem.IsEnabled>
                 <MenuItem Header="Preferences" />
             </MenuItem>
             <!-- View Menu -->
             <MenuItem Header="_View" >
+                <MenuItem.IsEnabled>
+                    <MultiBinding Converter="{StaticResource booleanAndConverter}" >
+                        <Binding Path="bIsFileOpen" />
+                        <Binding Path="GlobalDisable" Converter="{StaticResource InverseBooleanConverter}" />
+                    </MultiBinding>
+                </MenuItem.IsEnabled>
                 <MenuItem Header="Zoom In" Command="{Binding ViewZoomIn}" IsEnabled="{Binding bIsFileOpen}" />
                 <MenuItem Header="Zoom Out" Command="{Binding ViewZoomOut}" IsEnabled="{Binding bIsFileOpen}" />
                 <Separator />
@@ -57,7 +77,7 @@
                 <MenuItem Header="Rotate Right" Command="{Binding ViewRotateRight}" IsEnabled="{Binding bIsFileOpen}" />
             </MenuItem>
             <!-- Tools Menu -->
-            <MenuItem Header="_Tools" >
+            <MenuItem Header="_Tools" IsEnabled="{Binding GlobalDisable, Converter={StaticResource InverseBooleanConverter}}">
                 <MenuItem Header="Step and Repeat" >
                     <MenuItem Header="Custom Step and Repeat" IsEnabled="False" />
                     <Separator />

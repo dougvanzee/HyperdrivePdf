@@ -5,15 +5,22 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Hyperdrive.Core.Interfaces;
 
 namespace Hyperdrive.Core.Security
 {
-    public class LicenseUtil
+    public class LicenseUtil : ILicenseInfo
     {
-        private int LocalLicenseStatus = -1;
         private int OnlineLicenseStatus = -1; // -1 = Doesn't exist, 0 = Inactive, 1 = Active 
         private string LocalLicenseFilePath = @"C:\ProgramData\Displace\license.lic";
         private string OnlineLicenseFilePath = "http://www.displace.international/hyperdrive.lic";
+        private bool _LicenseActive = false;
+        private int _DaysLeftInLocalLicense = -1;
+
+        public bool LicenseActive { get { return _LicenseActive; } }
+        public int DaysLeftInLicense { get { return _DaysLeftInLocalLicense; } }
+
+        public event EventHandler LicenseInfoComplete;
 
         public async void StartLicenseCheck()
         {
@@ -29,23 +36,52 @@ namespace Hyperdrive.Core.Security
 
         private async Task LicenseCheck()
         {
-            CheckLocalLicense();
             CheckOnlineLicense();
+            CheckLocalLicense();
 
+            // If online is deactivated
             if (OnlineLicenseStatus == 0)
-                DeactivateLocalLicense();
+            {
+                _LicenseActive = false;
+                SetLicenseDays(-2);
+            }
 
-            if (OnlineLicenseStatus == -1 && LocalLicenseStatus == -1)
-                LicenseDoesNotExist();
+            // If online is active and local was previously deactivated
+            else if (OnlineLicenseStatus == 1 && _DaysLeftInLocalLicense == -2)
+            {
+                _LicenseActive = true;
+                SetLicenseDays(6);
+            }
 
-            if (OnlineLicenseStatus == 1 && LocalLicenseStatus == -1)
+            // If both licenses don't exist or can't be found
+            else if (OnlineLicenseStatus == -1 && _DaysLeftInLocalLicense == -1)
+            {
+                _LicenseActive = false;
+                SetLicenseDays(-1);
+            }
+
+            // If online is active but local not created
+            else if (OnlineLicenseStatus == 1 && _DaysLeftInLocalLicense == -1)
+            {
+                _LicenseActive = true;
                 CreateLocalLicense();
+            }
+                
+            // If online is active and local exists
+            else if (OnlineLicenseStatus == 1 && _DaysLeftInLocalLicense >= 0)
+            {
+                _LicenseActive = true;
+                SetLicenseDays(6);
+            }
 
-            if (OnlineLicenseStatus == 1 && LocalLicenseStatus >= 0)
-                RunNormal();
+            // If online can't be found and local exists
+            else if (OnlineLicenseStatus == -1 && _DaysLeftInLocalLicense >= 0)
+            {
+                _LicenseActive = false;
+                ReduceLicenseDays();
+            }
 
-            if (OnlineLicenseStatus == -1 && LocalLicenseStatus >= 0)
-                RunTimeLimitMode();
+            LicenseInfoComplete(this, EventArgs.Empty);
 
         }
 
@@ -53,17 +89,14 @@ namespace Hyperdrive.Core.Security
         {
             if (File.Exists(LocalLicenseFilePath))
             {
-                Console.WriteLine("Local license found");
-                LocalLicenseStatus = Int32.Parse(File.ReadAllText(LocalLicenseFilePath));
-                Console.WriteLine("Local license status: " + LocalLicenseStatus);
+                _DaysLeftInLocalLicense = Int32.Parse(File.ReadAllText(LocalLicenseFilePath));
             }
             else
             {
-                Console.WriteLine("Local license not found");
-                LocalLicenseStatus = -1;
-                Console.WriteLine("Local license status: " + LocalLicenseStatus);
+                _DaysLeftInLocalLicense = -1;
             }
         }
+
 
         private void CheckOnlineLicense()
         {
@@ -75,63 +108,56 @@ namespace Hyperdrive.Core.Security
                 Stream stream = client.OpenRead(OnlineLicenseFilePath);
                 StreamReader reader = new StreamReader(stream);
                 content = reader.ReadToEnd();
-                Console.WriteLine("Online license found");
+
                 OnlineLicenseStatus = content == "Active" ?  1 : 0;
-                Console.WriteLine("Online license status: " + OnlineLicenseStatus);
             }
             catch (Exception)
             {
                 OnlineLicenseStatus = -1;
-                Console.WriteLine("Online license not found");
-                Console.WriteLine("Online license status: " + OnlineLicenseStatus);
             }
 
         }
 
         private void CreateLocalLicense()
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(LocalLicenseFilePath));
-
-            File.WriteAllText(LocalLicenseFilePath, "6");
-            LocalLicenseStatus = Int32.Parse(File.ReadAllText(LocalLicenseFilePath));
-            Console.WriteLine("Local license status: " + LocalLicenseStatus);
-        }
-
-        private void RunTimeLimitMode()
-        {
-            
-
-            if (LocalLicenseStatus == 0 || LocalLicenseStatus == 1)
+            try
             {
-                File.WriteAllText(LocalLicenseFilePath, "0");
-                LocalLicenseStatus = 0;
-                Console.WriteLine("Temporary license is over and needs to connect to license server");
+                Directory.CreateDirectory(Path.GetDirectoryName(LocalLicenseFilePath));
+
+                File.WriteAllText(LocalLicenseFilePath, "6");
+                _DaysLeftInLocalLicense = 6;
             }
-            else
+            catch (Exception)
             {
-                LocalLicenseStatus--;
-                File.WriteAllText(LocalLicenseFilePath, LocalLicenseStatus.ToString());
-                Console.WriteLine("Display number of uses left");
+                Console.WriteLine("Unable to create local license");
+            }
+
+        }
+
+        private void SetLicenseDays(int days)
+        {
+            _DaysLeftInLocalLicense = days;
+            if (File.Exists(LocalLicenseFilePath))
+            {
+                File.WriteAllText(LocalLicenseFilePath, days.ToString());
+
             }
         }
 
-        private void RunNormal()
+        private void ReduceLicenseDays()
         {
-            File.WriteAllText(LocalLicenseFilePath, "6");
-            LocalLicenseStatus = 6;
-            Console.WriteLine("Run program as normal");
+            if (File.Exists(LocalLicenseFilePath))
+            {
+                int days = Int32.Parse(File.ReadAllText(LocalLicenseFilePath));
+                if (days > 0)
+                    days--;
+                else
+                    days = 0;
+
+                File.WriteAllText(LocalLicenseFilePath, days.ToString());
+                _DaysLeftInLocalLicense = days;
+            }
         }
 
-        private void DeactivateLocalLicense()
-        {
-            File.WriteAllText(LocalLicenseFilePath, "0");
-            LocalLicenseStatus = 0;
-            Console.WriteLine("License has been deactivated and will no longer run.");
-        }
-
-        private void LicenseDoesNotExist()
-        {
-            Console.WriteLine("License has not been activated and we cannot reach the license server.");
-        }
     }
 }

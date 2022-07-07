@@ -51,11 +51,25 @@ namespace Hyperdrive.UI.ViewModel
 
         private string fileOutPath = null;
 
+        private bool globalDisable = false;
 
 
         #endregion
 
         #region Public Properties
+
+        public bool GlobalDisable
+        {
+            get
+            {
+                return globalDisable;
+            }
+            set
+            {
+                globalDisable = value;
+                OnPropertyChanged(nameof(GlobalDisable));
+            }
+        }
 
         /// <summary>
         /// The minimum width of the window
@@ -233,6 +247,8 @@ namespace Hyperdrive.UI.ViewModel
 
             mWindow = window;
             pdfPanel = ((MainWindow)mWindow).MoonPdfPanel;
+
+            GlobalDisable = true;
 
             pdfPanel.CurrentPageNumberChanged += moonPdfPanel_PageNumberChanged;
             // Listen out for the window resizing

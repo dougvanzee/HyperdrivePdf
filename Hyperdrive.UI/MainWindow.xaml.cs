@@ -33,9 +33,10 @@ namespace Hyperdrive.UI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         internal MoonPdfPanel MoonPdfPanel { get { return this.moonPdfPanel; } }
+        private LicenseUtil licenseUtil;
 
         public MainWindow()
         {
@@ -43,9 +44,61 @@ namespace Hyperdrive.UI
 
             this.DataContext = new WindowViewModel(this);
 
-            LicenseUtil licenseUtil = new LicenseUtil();
+            licenseUtil = new LicenseUtil();
+            licenseUtil.LicenseInfoComplete += LicenseInfoComplete;
 
             licenseUtil.StartLicenseCheck();
         }
+
+        private void LicenseInfoComplete(object sender, EventArgs e)
+        {
+            if (licenseUtil.LicenseActive == false)
+            {
+                switch(licenseUtil.DaysLeftInLicense)
+                {
+                    case -2:
+                        MessageBox.Show("This trial license has expired. Please email dmvanzee@gmail.com for a license.", "HyperdrivePDF License", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                        break;
+                    case -1:
+                        MessageBox.Show("An active license could not be found. Please make sure you are connected to the internet", "HyperdrivePDF License", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                        break;
+                    case 0:
+                        MessageBox.Show("There are 0 more uses in your license. Please make sure you have an active internet connection\n\nIf you continue having issues, please email dmvanzee@gmail.com for licensing support.", "HyperdrivePDF License", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                        break;
+                    default:
+                        MessageBox.Show("There are " + licenseUtil.DaysLeftInLicense + " more uses in your license. Please make sure you have an active internet connection\n\nIf you continue having issues, please email dmvanzee@gmail.com for licensing support.", "HyperdrivePDF License", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                        break;
+                }
+                   
+                if (licenseUtil.DaysLeftInLicense <= 0)
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        this.Close();
+                    });
+                }
+                else
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        this.SetGlobalDisable(false);
+                    });
+                }
+            }
+            else
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.SetGlobalDisable(false);
+                });
+            }
+        }
+
+        public void SetGlobalDisable(bool value)
+        {
+            ((WindowViewModel)(DataContext)).GlobalDisable = value;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
     }
 }

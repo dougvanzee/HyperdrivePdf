@@ -116,6 +116,7 @@
     </ApplicationDefinition>
     <Compile Include="ValueConverters\BaseValueConverter.cs" />
     <Compile Include="ValueConverters\BitmapToImageSourceConverter.cs" />
+    <Compile Include="ValueConverters\BooleanAndConverter.cs" />
     <Compile Include="ValueConverters\IntToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\InverseBooleanConverter.cs" />
     <Compile Include="ViewModel\Base\BaseViewModel.cs" />
