@@ -36,7 +36,7 @@ namespace Hyperdrive.UI.Views
 
         public bool IncludeSubdirectories { get; set; } = true;
 
-        public bool IncludeNonPdfs { get; set; } = false;
+        public bool IncludeNonPdfs { get; set; } = true;
 
         public string ReportPath { get; set; }
 
