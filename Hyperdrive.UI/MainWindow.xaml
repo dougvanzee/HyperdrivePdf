@@ -15,7 +15,7 @@
         MinWidth="{Binding MinimumWindowWidth}"
         MinHeight="{Binding MinimumWindowHeight}"
         TextOptions.TextFormattingMode="Display"
-        Title="PDF Viewscreen" Height="800" Width="1200">
+        Title="HyperdrivePDF" Height="800" Width="1200">
 
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo x:Name="taskBarItemInfo1" />
