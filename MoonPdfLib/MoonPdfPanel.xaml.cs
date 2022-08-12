@@ -220,7 +220,7 @@ namespace MoonPdfLib
 
                 pw = e.Password;
             }
-
+			
             this.LoadPdf(source, pw);
 			this.CurrentSource = source;
             this.CurrentPassword = pw;
@@ -228,6 +228,7 @@ namespace MoonPdfLib
 
 			if (this.PdfLoaded != null)
 				this.PdfLoaded(this, EventArgs.Empty);
+			
 		}
 
         public void Unload()
@@ -244,8 +245,8 @@ namespace MoonPdfLib
 
         private void LoadPdf(IPdfSource source, string password)
         {
-            var pageBounds = MuPdfWrapper.GetPageBounds(source, this.Rotation, password);
-            this.pageRowBounds = CalculatePageRowBounds(pageBounds, this.ViewType);
+			var pageBounds = MuPdfWrapper.GetPageBounds(source, this.Rotation, password);
+			this.pageRowBounds = CalculatePageRowBounds(pageBounds, this.ViewType);
             this.TotalPages = pageBounds.Length;
             this.innerPanel.Load(source, password);
         }

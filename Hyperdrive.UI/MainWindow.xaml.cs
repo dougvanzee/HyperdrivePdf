@@ -24,6 +24,7 @@ using MoonPdfLib;
 using System.Windows.Controls.Primitives;
 using System.Windows.Automation;
 using Hyperdrive.Core.Security;
+using AutoUpdaterDotNET;
 
 /// <summary>
 /// The name space for all UI related tasks
@@ -43,6 +44,8 @@ namespace Hyperdrive.UI
             InitializeComponent();
 
             this.DataContext = new WindowViewModel(this);
+
+            AutoUpdater.Start("https://displace.international/HyperdrivePDF/LatestRelease.xml");
 
             licenseUtil = new LicenseUtil();
             licenseUtil.LicenseInfoComplete += LicenseInfoComplete;
