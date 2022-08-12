@@ -67,13 +67,13 @@ namespace MoonPdfLib.MuPdf
 			if( rotation == ImageRotation.Rotate90 || rotation == ImageRotation.Rotate270 )
 				sizeCallback = (width, height) => new System.Windows.Size(height, width); // switch width and height
 
-            using (var stream = new PdfFileStream(source))
+			using (var stream = new PdfFileStream(source))
 			{
                 ValidatePassword(stream.Document, password);
 
 				var pageCount = NativeMethods.CountPages(stream.Document); // gets the number of pages in the document
                 var resultBounds = new System.Windows.Size[pageCount];
-
+				
 				for (int i = 0; i < pageCount; i++)
 				{
 					IntPtr p = NativeMethods.LoadPage(stream.Document, i); // loads the page
@@ -83,9 +83,10 @@ namespace MoonPdfLib.MuPdf
 
 					NativeMethods.FreePage(stream.Document, p); // releases the resources consumed by the page
 				}
-
+				
                 return resultBounds;
 			}
+
 		}
 
 		/// <summary>
