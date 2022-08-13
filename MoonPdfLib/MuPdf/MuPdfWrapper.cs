@@ -69,11 +69,11 @@ namespace MoonPdfLib.MuPdf
 
 			using (var stream = new PdfFileStream(source))
 			{
-                ValidatePassword(stream.Document, password);
+				ValidatePassword(stream.Document, password);
 
 				var pageCount = NativeMethods.CountPages(stream.Document); // gets the number of pages in the document
                 var resultBounds = new System.Windows.Size[pageCount];
-				
+
 				for (int i = 0; i < pageCount; i++)
 				{
 					IntPtr p = NativeMethods.LoadPage(stream.Document, i); // loads the page
@@ -83,8 +83,8 @@ namespace MoonPdfLib.MuPdf
 
 					NativeMethods.FreePage(stream.Document, p); // releases the resources consumed by the page
 				}
-				
-                return resultBounds;
+
+				return resultBounds;
 			}
 
 		}
@@ -200,24 +200,24 @@ namespace MoonPdfLib.MuPdf
             
             public PdfFileStream(IPdfSource source)
             {
-                if (source is FileSource)
+				if (source is FileSource)
                 {
-                    var fs = (FileSource)source;
-                    Context = NativeMethods.NewContext(IntPtr.Zero, IntPtr.Zero, FZ_STORE_DEFAULT); // Creates the context
-                    Stream = NativeMethods.OpenFile(Context, fs.Filename); // opens file as a stream
-                    Document = NativeMethods.OpenDocumentStream(Context, ".pdf", Stream); // opens the document
-                }
+					var fs = (FileSource)source;
+					Context = NativeMethods.NewContext(IntPtr.Zero, IntPtr.Zero, FZ_STORE_DEFAULT); // Creates the context
+					Stream = NativeMethods.OpenFile(Context, fs.Filename); // opens file as a stream
+					Document = NativeMethods.OpenDocumentStream(Context, ".pdf", Stream); // opens the document
+				}
                 else if (source is MemorySource)
                 {
-                    var ms = (MemorySource)source;
+					var ms = (MemorySource)source;
                     Context = NativeMethods.NewContext(IntPtr.Zero, IntPtr.Zero, FZ_STORE_DEFAULT); // Creates the context
                     GCHandle pinnedArray = GCHandle.Alloc(ms.Bytes, GCHandleType.Pinned);
                     IntPtr pointer = pinnedArray.AddrOfPinnedObject();
                     Stream = NativeMethods.OpenStream(Context, pointer, ms.Bytes.Length); // opens file as a stream
                     Document = NativeMethods.OpenDocumentStream(Context, ".pdf", Stream); // opens the document
                     pinnedArray.Free();
-                }
-            }
+				}
+			}
 
 			public void Dispose()
 			{

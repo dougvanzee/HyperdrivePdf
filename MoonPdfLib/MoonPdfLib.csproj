@@ -159,6 +159,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Hyperdrive.Core\Hyperdrive.Core.csproj">
+      <Project>{6F11A0EA-58B9-47DA-9EE9-1A8001CD8E66}</Project>
+      <Name>Hyperdrive.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MouseKeyboardActivityMonitor\MouseKeyboardActivityMonitor.csproj">
       <Project>{f52aa97e-180a-40ed-8f2b-09080171d6c7}</Project>
       <Name>MouseKeyboardActivityMonitor</Name>

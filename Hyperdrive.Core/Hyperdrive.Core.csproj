@@ -177,6 +177,7 @@
     <Compile Include="Stats\PageSizeCount\CounterDirectory.cs" />
     <Compile Include="Stats\PageSizeCount\Counter.cs" />
     <Compile Include="Utils\BlankPage.cs" />
+    <Compile Include="Utils\HyperLogger.cs" />
     <Compile Include="Utils\PageSizeType.cs" />
     <Compile Include="Resizer\Resizer.cs" />
     <Compile Include="Utils\ScaleDown.cs" />

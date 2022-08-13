@@ -32,6 +32,7 @@ using MoonPdfLib.MuPdf;
 using MoonPdfLib.Helper;
 using System.Windows.Threading;
 using System.ComponentModel;
+using Hyperdrive.Core.Utils;
 
 namespace MoonPdfLib
 {
@@ -247,8 +248,8 @@ namespace MoonPdfLib
         {
 			var pageBounds = MuPdfWrapper.GetPageBounds(source, this.Rotation, password);
 			this.pageRowBounds = CalculatePageRowBounds(pageBounds, this.ViewType);
-            this.TotalPages = pageBounds.Length;
-            this.innerPanel.Load(source, password);
+			this.TotalPages = pageBounds.Length;
+			this.innerPanel.Load(source, password);
         }
 
 		private PageRowBound[] CalculatePageRowBounds(Size[] singlePageBounds, ViewType viewType)

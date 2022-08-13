@@ -25,6 +25,8 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Automation;
 using Hyperdrive.Core.Security;
 using AutoUpdaterDotNET;
+using System.Diagnostics;
+using Hyperdrive.Core.Utils;
 
 /// <summary>
 /// The name space for all UI related tasks
