@@ -31,27 +31,14 @@ namespace Hyperdrive.UI.Views.SideToolbars
         {
             InitializeComponent();
 
-            // parentWindow = Window.GetWindow(this);
             parentWindow = Application.Current.MainWindow;
-            //OnPropertyChanged(nameof(totalPageCount));
-            //OnPropertyChanged(nameof(currentProgress));
-
-            Debug.WriteLine("Initial PageCountToolbar: " + ((WindowViewModel)(parentWindow.DataContext)).bIsFileOpen);
-
-            // UIElement.IsEnabledProperty.AddOwner(typeof(PageCountToolbar), new FrameworkPropertyMetadata(OnIsEnabledChanged));
-
-            //var desc = DependencyPropertyDescriptor.FromProperty(UIElement.IsEnabledProperty, typeof(FrameworkElement));
-            //desc.DesignerCoerceValueCallback += OnIsEnabledChanged;
 
             var pd = DependencyPropertyDescriptor.FromProperty(UIElement.IsEnabledProperty, typeof(PageCountToolbar));
             pd.AddValueChanged(this, OnIsEnabledChanged);
-
-            // OnPropertyChanged(nameof(OnIsEnabledChanged));
         }
 
         void OnLoad(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("PageCountToolbar ONLOAD");
             OnIsEnabledChanged(this, new PropertyChangedEventArgs(nameof(OnIsEnabledChanged)));
         }
 
@@ -63,15 +50,12 @@ namespace Hyperdrive.UI.Views.SideToolbars
 
         public void OnIsEnabledChanged(object sender, EventArgs e)
         {
-            Debug.WriteLine("PageCountToolbar OnIsEnabledChanged: Called");
             if (((UserControl)sender).IsEnabled)
             {
-                Debug.WriteLine("PageCountToolbar OnIsEnabledChanged: Enabled");
                 EnableToolbar();
             }
             else
             {
-                Debug.WriteLine("PageCountToolbar OnIsEnabledChanged: Disabled");
                 DisableToolbar();
             }
                 
@@ -81,10 +65,8 @@ namespace Hyperdrive.UI.Views.SideToolbars
 
         public void EnableToolbar()
         {
-            // totalPageCount = GetTotalPageCount();
             currentProgress = 0;
-            GetPageSizes();
-            
+            GetPageSizes();  
         }
 
         public void DisableToolbar()

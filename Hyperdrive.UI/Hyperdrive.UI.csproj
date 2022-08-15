@@ -185,6 +185,9 @@
     <Compile Include="Views\SideToolbars\PageCountItem.xaml.cs">
       <DependentUpon>PageCountItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SideToolbars\PageCountSideToolbar.xaml.cs">
+      <DependentUpon>PageCountSideToolbar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SideToolbars\PageCountToolbar.xaml.cs">
       <DependentUpon>PageCountToolbar.xaml</DependentUpon>
     </Compile>
@@ -257,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SideToolbars\PageCountItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SideToolbars\PageCountSideToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
