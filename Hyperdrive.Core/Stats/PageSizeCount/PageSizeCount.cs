@@ -14,20 +14,23 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
         private int stagedCounts = 0;
         private bool isDefaultSize;
         private int squareFootage;
+        private string displayName;
 
-        public PageSizeCount(float SizeX, float SizeY)
+        public PageSizeCount(float SizeX, float SizeY, string DisplayName = "")
         {
             sizeX = SizeX;
             sizeY = SizeY;
+            displayName = DisplayName;
             isDefaultSize = false;
             SetSquareFootage();
         }
 
-        public PageSizeCount(float SizeX, float SizeY, bool IsDefaultSize)
+        public PageSizeCount(float SizeX, float SizeY, bool IsDefaultSize, string DisplayName = "")
         {
             isDefaultSize = IsDefaultSize;
             sizeX = SizeX;
             sizeY = SizeY;
+            displayName = DisplayName;
             SetSquareFootage();
         }
 

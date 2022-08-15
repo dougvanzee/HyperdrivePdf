@@ -166,7 +166,7 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
             totalPageCount = 0;
 
             List<PageSizeCount> pageSizes = new List<PageSizeCount>();
-            pageSizes.AddRange(defaultPageSizeList());
+            pageSizes.AddRange(StandardPageSizes.Pages());
 
             int currentIndex = 0;
 
@@ -329,36 +329,6 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
 
             return pageSizes;
         }
-
-        private List<PageSizeCount> defaultPageSizeList()
-        {
-            List<PageSizeCount> defaultPageSizes = new List<PageSizeCount>();
-            defaultPageSizes.Add(new PageSizeCount(8.5f, 11f, true));
-            defaultPageSizes.Add(new PageSizeCount(8.5f, 14f, true));
-            defaultPageSizes.Add(new PageSizeCount(9f, 11f, true));
-            defaultPageSizes.Add(new PageSizeCount(11f, 17f, true));
-            defaultPageSizes.Add(new PageSizeCount(12f, 18f, true));
-            defaultPageSizes.Add(new PageSizeCount(15f, 21f, true));
-            defaultPageSizes.Add(new PageSizeCount(15f, 22f, true));
-            defaultPageSizes.Add(new PageSizeCount(17f, 21f, true));
-            defaultPageSizes.Add(new PageSizeCount(17f, 22f, true));
-            defaultPageSizes.Add(new PageSizeCount(18f, 24f, true));
-            defaultPageSizes.Add(new PageSizeCount(18f, 36f, true));
-            defaultPageSizes.Add(new PageSizeCount(22f, 34f, true));
-            defaultPageSizes.Add(new PageSizeCount(22f, 36f, true));
-            defaultPageSizes.Add(new PageSizeCount(24f, 36f, true));
-            defaultPageSizes.Add(new PageSizeCount(24f, 44f, true));
-            defaultPageSizes.Add(new PageSizeCount(26f, 36f, true));
-            defaultPageSizes.Add(new PageSizeCount(30f, 36f, true));
-            defaultPageSizes.Add(new PageSizeCount(30f, 40f, true));
-            defaultPageSizes.Add(new PageSizeCount(30f, 42f, true));
-            defaultPageSizes.Add(new PageSizeCount(34f, 44f, true));
-            defaultPageSizes.Add(new PageSizeCount(36f, 42f, true));
-            defaultPageSizes.Add(new PageSizeCount(36f, 48f, true));
-
-            return defaultPageSizes;
-        }
-
 
         private IEnumerable<string> GetFileList(bool includeSubdirectories, bool includeNonPdfs)
         {
