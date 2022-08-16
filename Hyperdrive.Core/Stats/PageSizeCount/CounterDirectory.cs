@@ -158,7 +158,7 @@ namespace Hyperdrive.Core.Stats.PageSizeCount
             CurrentStatusText = "Done";
             ProgressCompelete(this, EventArgs.Empty);
 
-            // System.Diagnostics.Process.Start(reportPath);
+            System.Diagnostics.Process.Start(reportPath);
         }
 
         private List<PageSizeCount> GetAllPageSizeCounts()
