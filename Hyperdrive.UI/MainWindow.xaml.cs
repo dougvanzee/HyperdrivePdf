@@ -27,6 +27,9 @@ using Hyperdrive.Core.Security;
 using AutoUpdaterDotNET;
 using System.Diagnostics;
 using Hyperdrive.Core.Utils;
+using Microsoft.Win32;
+using Hyperdrive.Core.StepAndRepeat;
+using Hyperdrive.UI.Views;
 
 /// <summary>
 /// The name space for all UI related tasks
@@ -102,6 +105,64 @@ namespace Hyperdrive.UI
         public void SetGlobalDisable(bool value)
         {
             ((WindowViewModel)(DataContext)).GlobalDisable = value;
+        }
+
+        private void MenuFileOpen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "PDF (*.pdf)|*.pdf";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                //fileOpen = true;
+                //MenuFileOpen.IsEnabled = false;
+                //MenuCloseFile.IsEnabled = true;
+                //filePath = openFileDialog.FileName;
+                ((WindowViewModel)(this.DataContext)).FilePath = openFileDialog.FileName;
+            }
+        }
+        private void PageSizesInFolder_Click(object sender, RoutedEventArgs e)
+        {
+            CounterDirectoryWindow counterWindow = new CounterDirectoryWindow(this);
+            counterWindow.ShowDialog();
+        }
+
+        private void BusinessCard8Up_Click(object sender, RoutedEventArgs e)
+        {
+            // Prepare a dummy string, this would appear in the dialog
+            string FileName = System.IO.Path.GetFileNameWithoutExtension(((WindowViewModel)(this.DataContext)).FilePath) + "_8up.pdf";
+            SaveFileDialog sf = new SaveFileDialog();
+            sf.Filter = "PDF (*.pdf)|*.pdf";
+
+            // Feed the dummy name to the save dialog
+            sf.FileName = FileName;
+
+            if (sf.ShowDialog() == true)
+            {
+                // Now here's our save folder
+                // ((WindowViewModel)(this.DataContext)).FileOutPath = sf.FileName;
+
+                if (sf.FileName == ((WindowViewModel)(this.DataContext)).FilePath)
+                {
+                    MessageBox.Show("Destination file cannot be same as source file.",
+                                          "Confirmation",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Warning);
+                    return;
+                }
+
+                bool bResult = StepAndRepeatManager.BusinessCard8Up(((WindowViewModel)(this.DataContext)).FilePath, sf.FileName);
+
+                if (!bResult)
+                {
+                    MessageBox.Show("An unknown error occurred. Make sure the destination PDF is not open.",
+                      "Confirmation",
+                      MessageBoxButton.OK,
+                      MessageBoxImage.Error);
+                    return;
+                }
+
+                ((WindowViewModel)(this.DataContext)).FilePath = sf.FileName;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };

@@ -10,8 +10,20 @@
              Loaded="OnLoad"
              IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.bIsFileOpen}">
 
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly" >
-        <ItemsControl x:Name="PageCountsContainer" />
-    </ScrollViewer>
+    <StackPanel Orientation="Vertical">
+        <Border Background="{StaticResource BackgroundMainBrush}" BorderBrush="{StaticResource MainBorderBrush}" BorderThickness="1">
+            <StackPanel Orientation="Horizontal" Height="28 " >
+                <Button Content="Expand All" Padding="5 "/>
+                <Button Content="Collapse All" Padding="5" />
+            </StackPanel>
+        </Border>
+
+        <TreeView />
+
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" PanningMode="VerticalOnly" >
+            <ItemsControl x:Name="PageCountsContainer" />
+        </ScrollViewer>
+    </StackPanel>
+
     
 </UserControl>

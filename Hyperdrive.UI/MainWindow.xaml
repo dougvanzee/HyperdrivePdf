@@ -21,6 +21,8 @@
         <TaskbarItemInfo x:Name="taskBarItemInfo1" />
     </Window.TaskbarItemInfo>
     <Window.Resources>
+        <local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        <local:BooleanAndConverter x:Key="booleanAndConverter" />
         <Style TargetType="{x:Type local:MainWindow}" >
             <Setter Property="Template" >
                 <Setter.Value>
@@ -71,25 +73,46 @@
                                     </DockPanel>
 
                                     <!-- The second menu bar -->
-                                    <Grid Grid.Row="1" Margin="10 2" >
+                                    <Grid Grid.Row="1" Margin="10 2" Width="Auto">
 
+                                        
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-
-                                        <Menu Grid.Column="0" Background="{StaticResource BackgroundMainBrush}">
-                                            <MenuItem Header="+" FontSize="24" FontWeight="Black" Command="{Binding ViewZoomIn}" IsEnabled="{Binding bIsFileOpen}" />
-                                            <MenuItem Header="-" FontSize="24" FontWeight="Black" Command="{Binding ViewZoomOut}" IsEnabled="{Binding bIsFileOpen}" />
-                                        </Menu>
-
-                                        <Menu Visibility="Collapsed" Grid.Column="2" Background="{StaticResource BackgroundMainBrush}">
+                                        
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                            <Button Content="Open" Margin="1 0" Padding="5 0" Click="MenuFileOpen_Click" ToolTip="Open File" >
+                                                <Button.IsEnabled>
+                                                    <MultiBinding Converter="{StaticResource booleanAndConverter}" >
+                                                        <Binding Path="bIsFileOpen" Converter="{StaticResource InverseBooleanConverter}" />
+                                                        <Binding Path="GlobalDisable" Converter="{StaticResource InverseBooleanConverter}" />
+                                                    </MultiBinding>
+                                                </Button.IsEnabled>
+                                            </Button>
+                                            <Button Content="Save" Margin="1 0" Padding="5 0" IsEnabled="False" ToolTip="Save File" />
+                                            <Button Content="Close" Margin="1 0" Padding="5 0" Command="{Binding CloseFileCommand}" IsEnabled="{Binding bIsFileOpen}" ToolTip="Close File" />
+                                        </StackPanel>
+                                        
+                                        
+                                        <Menu Visibility="Collapsed" Grid.Column="0" Background="{StaticResource BackgroundMainBrush}">
                                             <MenuItem Header="Open" />
-                                            <MenuItem Header="Save"/>
+                                            <MenuItem Header="Save" />
                                             <MenuItem Header="Print"/>
                                             <MenuItem Header="Save"/>
                                         </Menu>
+
+                                        <Menu Grid.Column="1" HorizontalAlignment="Center" Background="{StaticResource BackgroundMainBrush}">
+                                            <MenuItem Header="+" FontSize="24" FontWeight="Black" Command="{Binding ViewZoomIn}" IsEnabled="{Binding bIsFileOpen}" ToolTip="Zoom In" />
+                                            <MenuItem Header="-" FontSize="24" FontWeight="Black" Command="{Binding ViewZoomOut}" IsEnabled="{Binding bIsFileOpen}" ToolTip="Zoom Out" />
+                                        </Menu>
+
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button Content="BC 8UP" Margin="1 0" Padding="5 0" Click="BusinessCard8Up_Click" IsEnabled="{Binding bIsFileOpen}" ToolTip="8-Up Business Cards" />
+                                            <Button Content="Generate Size Report" Margin="1 0" Padding="5 0" Click="PageSizesInFolder_Click" ToolTip="Generate a Page Size Report from Folder" />
+                                        </StackPanel>
+
 
                                     </Grid>
 

@@ -25,7 +25,7 @@ namespace Hyperdrive.UI.Views.SideToolbars
         {
             InitializeComponent();
 
-            var pd = DependencyPropertyDescriptor.FromProperty(UIElement.IsEnabledProperty, typeof(PageCountToolbar));
+            var pd = DependencyPropertyDescriptor.FromProperty(UIElement.IsEnabledProperty, typeof(PageCountSideToolbar));
             pd.AddValueChanged(this, OnIsEnabledChanged);
         }
 
