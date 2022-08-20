@@ -34,7 +34,7 @@
     <PublisherName>Displace</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>42</ApplicationRevision>
+    <ApplicationRevision>43</ApplicationRevision>
     <ApplicationVersion>0.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -382,7 +382,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\MainToolbar\FileSave_48.png" />
+    <Resource Include="Images\MainToolbar\FileClose_48.png" />
+    <Resource Include="Images\MainToolbar\FileOpen_48.png" />
+    <Resource Include="Images\MainToolbar\PDF_48.png" />
+    <Resource Include="Images\MainToolbar\BC_8UP_48.png" />
     <Content Include="libmupdf.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

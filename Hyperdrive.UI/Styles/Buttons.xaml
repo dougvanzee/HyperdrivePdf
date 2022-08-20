@@ -59,5 +59,29 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    <!-- Main Buttons -->
+    <Style TargetType="{x:Type Button}" x:Key="MainButtonStyle">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}" >
+                    <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" >
+                        <Viewbox>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Content}" />
+                        </Viewbox>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource LightBlueHighlightBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{StaticResource MainButtonDisabledBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
 </ResourceDictionary>

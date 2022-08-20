@@ -82,8 +82,16 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         
-                                        <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                            <Button Content="Open" Margin="1 0" Padding="5 0" Click="MenuFileOpen_Click" ToolTip="Open File" >
+                                        <StackPanel Grid.Column="0" Margin="10 0" Orientation="Horizontal">
+                                            <Button x:Name="OpenFileButton" Margin="5 8" Width="30" Height="30" Click="MenuFileOpen_Click" ToolTip="Open File" Style="{StaticResource MainButtonStyle}" >
+                                                <Button.OpacityMask>
+                                                    <VisualBrush Stretch="Uniform">
+                                                        <VisualBrush.Visual>
+                                                            <Image Source="Images/MainToolbar/FileOpen_48.png" />
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Button.OpacityMask>
+
                                                 <Button.IsEnabled>
                                                     <MultiBinding Converter="{StaticResource booleanAndConverter}" >
                                                         <Binding Path="bIsFileOpen" Converter="{StaticResource InverseBooleanConverter}" />
@@ -91,8 +99,30 @@
                                                     </MultiBinding>
                                                 </Button.IsEnabled>
                                             </Button>
-                                            <Button Content="Save" Margin="1 0" Padding="5 0" IsEnabled="False" ToolTip="Save File" />
-                                            <Button Content="Close" Margin="1 0" Padding="5 0" Command="{Binding CloseFileCommand}" IsEnabled="{Binding bIsFileOpen}" ToolTip="Close File" />
+                                            
+                                            <Button Margin="5 8" Width="30" Height="30" IsEnabled="False" ToolTip="Save File" Style="{StaticResource MainButtonStyle}" >
+                                                <Button.OpacityMask>
+                                                    <VisualBrush Stretch="Uniform">
+                                                        <VisualBrush.Visual>
+                                                            <Border>
+                                                                <Image Source="Images/MainToolbar/FileSave_48.png" />
+                                                            </Border>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Button.OpacityMask>
+                                            </Button>
+                                            
+                                            <Button Margin="5 8" Width="30" Height="30" Command="{Binding CloseFileCommand}" IsEnabled="{Binding bIsFileOpen}" ToolTip="Close File" Style="{StaticResource MainButtonStyle}">
+                                                <Button.OpacityMask>
+                                                    <VisualBrush Stretch="Uniform">
+                                                        <VisualBrush.Visual>
+                                                            <Border>
+                                                                <Image Source="Images/MainToolbar/FileClose_48.png" />
+                                                            </Border>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Button.OpacityMask>
+                                            </Button>
                                         </StackPanel>
                                         
                                         
@@ -109,8 +139,29 @@
                                         </Menu>
 
                                         <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                                            <Button Content="BC 8UP" Margin="1 0" Padding="5 0" Click="BusinessCard8Up_Click" IsEnabled="{Binding bIsFileOpen}" ToolTip="8-Up Business Cards" />
-                                            <Button Content="Generate Size Report" Margin="1 0" Padding="5 0" Click="PageSizesInFolder_Click" ToolTip="Generate a Page Size Report from Folder" />
+                                            <Button Margin="5 8" Width="30" Height="30" Click="BusinessCard8Up_Click" IsEnabled="{Binding bIsFileOpen}" ToolTip="8-Up Business Cards" Style="{StaticResource MainButtonStyle}">
+                                                <Button.OpacityMask>
+                                                    <VisualBrush Stretch="Uniform">
+                                                        <VisualBrush.Visual>
+                                                            <Border>
+                                                                <Image Source="Images/MainToolbar/BC_8UP_48.png" />
+                                                            </Border>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Button.OpacityMask>
+                                            </Button>
+
+                                            <Button Margin="5 8" Width="30" Height="30" Click="PageSizesInFolder_Click" ToolTip="Generate a Page Size Report from Folder" Style="{StaticResource MainButtonStyle}">
+                                                <Button.OpacityMask>
+                                                    <VisualBrush Stretch="Uniform">
+                                                        <VisualBrush.Visual>
+                                                            <Border>
+                                                                <Image Source="Images/MainToolbar/PDF_48.png" />
+                                                            </Border>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Button.OpacityMask>
+                                            </Button>
                                         </StackPanel>
 
 

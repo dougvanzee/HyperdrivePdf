@@ -35,4 +35,7 @@
     <Color x:Key="ButtonAlt" >#FF333337</Color>
     <SolidColorBrush x:Key="ButtonAltBrush" Color="{StaticResource ButtonAlt}" />
 
+    <Color x:Key="MainButtonDisabled" >#555</Color>
+    <SolidColorBrush x:Key="MainButtonDisabledBrush" Color="{StaticResource MainButtonDisabled}" />
+
 </ResourceDictionary>
