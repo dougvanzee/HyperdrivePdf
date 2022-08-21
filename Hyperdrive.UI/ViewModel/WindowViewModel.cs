@@ -74,12 +74,12 @@ namespace Hyperdrive.UI.ViewModel
         /// <summary>
         /// The minimum width of the window
         /// </summary>
-        public double WindowMinimumWidth { get; set; } = 400;
+        public double WindowMinimumWidth { get; } = 600;
 
         /// <summary>
         /// The minimum height of the window
         /// </summary>
-        public double WindowMinimumHeight { get; set; } = 400;
+        public double WindowMinimumHeight { get; set; } = 600;
 
         /// <summary>
         /// Whether or not the window is full screen or not, and whether the drop shadow and padding of the window should be zero or not.

@@ -12,8 +12,8 @@
         x:Name="AppWindow"
         Icon="Images/Logo/Icon.ico"
         WindowStartupLocation="CenterScreen"
-        MinWidth="{Binding MinimumWindowWidth}"
-        MinHeight="{Binding MinimumWindowHeight}"
+        MinWidth="{Binding WindowMinimumWidth}"
+        MinHeight="{Binding WindowMinimumHeight}"
         TextOptions.TextFormattingMode="Display"
         Title="HyperdrivePDF" Height="800" Width="1200">
 
