@@ -30,6 +30,7 @@ using Hyperdrive.Core.Utils;
 using Microsoft.Win32;
 using Hyperdrive.Core.StepAndRepeat;
 using Hyperdrive.UI.Views;
+using Hyperdrive.Core.Networking;
 
 /// <summary>
 /// The name space for all UI related tasks
@@ -56,6 +57,8 @@ namespace Hyperdrive.UI
             licenseUtil.LicenseInfoComplete += LicenseInfoComplete;
 
             licenseUtil.StartLicenseCheck();
+
+            DBConnection.TestConnection3();
         }
 
         private void LicenseInfoComplete(object sender, EventArgs e)
