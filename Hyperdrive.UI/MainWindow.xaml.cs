@@ -24,13 +24,13 @@ using MoonPdfLib;
 using System.Windows.Controls.Primitives;
 using System.Windows.Automation;
 using Hyperdrive.Core.Security;
-using AutoUpdaterDotNET;
 using System.Diagnostics;
 using Hyperdrive.Core.Utils;
 using Microsoft.Win32;
 using Hyperdrive.Core.StepAndRepeat;
 using Hyperdrive.UI.Views;
-using Hyperdrive.Core.Networking;
+using Hyperdrive.Core.License.Utils;
+using Hyperdrive.Core.License;
 
 /// <summary>
 /// The name space for all UI related tasks
@@ -51,14 +51,18 @@ namespace Hyperdrive.UI
 
             this.DataContext = new WindowViewModel(this);
 
-            AutoUpdater.Start("https://displace.international/HyperdrivePDF/LatestRelease.xml");
-
             licenseUtil = new LicenseUtil();
             licenseUtil.LicenseInfoComplete += LicenseInfoComplete;
 
             licenseUtil.StartLicenseCheck();
 
-            DBConnection.TestConnection3();
+            // DBConnection.TestConnection3();
+
+            // PasswordResetter.SendPasswordResetEmail("dmvanzee@gmail.com");
+            PasswordResetter passwordResetter = new PasswordResetter();
+            passwordResetter.SendEmail3();
+
+            Console.WriteLine(ResetCodeGenerator.GetCode());
         }
 
         private void LicenseInfoComplete(object sender, EventArgs e)
