@@ -95,6 +95,45 @@ namespace Hyperdrive.UI.Views
             }
         }
 
+        private void BusinessCard9Up_Click(object sender, RoutedEventArgs e)
+        {
+            // Prepare a dummy string, this would appear in the dialog
+            string FileName = System.IO.Path.GetFileNameWithoutExtension(((WindowViewModel)(this.DataContext)).FilePath) + "_9up.pdf";
+            SaveFileDialog sf = new SaveFileDialog();
+            sf.Filter = "PDF (*.pdf)|*.pdf";
+
+            // Feed the dummy name to the save dialog
+            sf.FileName = FileName;
+
+            if (sf.ShowDialog() == true)
+            {
+                // Now here's our save folder
+                // ((WindowViewModel)(this.DataContext)).FileOutPath = sf.FileName;
+
+                if (sf.FileName == ((WindowViewModel)(this.DataContext)).FilePath)
+                {
+                    MessageBox.Show("Destination file cannot be same as source file.",
+                                          "Confirmation",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Warning);
+                    return;
+                }
+
+                bool bResult = StepAndRepeatManager.BusinessCard9Up(((WindowViewModel)(this.DataContext)).FilePath, sf.FileName);
+
+                if (!bResult)
+                {
+                    MessageBox.Show("An unknown error occurred. Make sure the destination PDF is not open.",
+                      "Confirmation",
+                      MessageBoxButton.OK,
+                      MessageBoxImage.Error);
+                    return;
+                }
+
+                ((WindowViewModel)(this.DataContext)).FilePath = sf.FileName;
+            }
+        }
+
         private void ScaleDownTest_Click(object sender, RoutedEventArgs e)
         {
             // Prepare a dummy string, this would appear in the dialog
