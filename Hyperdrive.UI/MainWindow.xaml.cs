@@ -60,7 +60,7 @@ namespace Hyperdrive.UI
 
             // PasswordResetter.SendPasswordResetEmail("dmvanzee@gmail.com");
             PasswordResetter passwordResetter = new PasswordResetter();
-            passwordResetter.SendEmail3();
+            //passwordResetter.SendEmail3();
 
             Console.WriteLine(ResetCodeGenerator.GetCode());
         }
