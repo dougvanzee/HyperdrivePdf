@@ -151,6 +151,18 @@
                                                 </Button.OpacityMask>
                                             </Button>
 
+                                            <Button Margin="5 8" Width="30" Height="30" Click="SaddleStitchFullBleed_Click" IsEnabled="{Binding bIsFileOpen}" ToolTip="8.5x11 full bleed pages as saddle stitch on 12x18" Style="{StaticResource MainButtonStyle}">
+                                                <Button.OpacityMask>
+                                                    <VisualBrush Stretch="Uniform">
+                                                        <VisualBrush.Visual>
+                                                            <Border>
+                                                                <Image Source="Images/MainToolbar/SaddleStitch_48.png" />
+                                                            </Border>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Button.OpacityMask>
+                                            </Button>
+
                                             <Button Margin="5 8" Width="30" Height="30" Click="PageSizesInFolder_Click" ToolTip="Generate a Page Size Report from Folder" Style="{StaticResource MainButtonStyle}">
                                                 <Button.OpacityMask>
                                                     <VisualBrush Stretch="Uniform">

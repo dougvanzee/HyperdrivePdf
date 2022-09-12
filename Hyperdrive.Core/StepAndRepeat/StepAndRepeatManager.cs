@@ -15,7 +15,7 @@ using System.Windows.Controls;
 
 namespace Hyperdrive.Core.StepAndRepeat
 {
-    public static class StepAndRepeatManager
+    public static partial class StepAndRepeatManager
     {
         public static bool BusinessCard8Up(string SRC, string dest)
         {
@@ -302,6 +302,9 @@ namespace Hyperdrive.Core.StepAndRepeat
 
             return true;
         }
+
+        
+
 
     }
 }

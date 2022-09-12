@@ -35,7 +35,7 @@
     <MinimumRequiredVersion>0.0.0.43</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>45</ApplicationRevision>
+    <ApplicationRevision>47</ApplicationRevision>
     <ApplicationVersion>0.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -385,6 +385,7 @@
     <Resource Include="Images\MainToolbar\FileOpen_48.png" />
     <Resource Include="Images\MainToolbar\PDF_48.png" />
     <Resource Include="Images\MainToolbar\BC_8UP_48.png" />
+    <Resource Include="Images\MainToolbar\SaddleStitch_48.png" />
     <Content Include="libmupdf.dll" />
   </ItemGroup>
   <ItemGroup />

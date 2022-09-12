@@ -250,6 +250,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <Compile Include="StepAndRepeat\StepAndRepeatManager.SaddleStitch.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Logo\Icon.ico">
