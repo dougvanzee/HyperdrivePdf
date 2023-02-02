@@ -31,6 +31,7 @@ using Hyperdrive.Core.StepAndRepeat;
 using Hyperdrive.UI.Views;
 using Hyperdrive.Core.License.Utils;
 using Hyperdrive.Core.License;
+using Hyperdrive.Core.Stats;
 
 /// <summary>
 /// The name space for all UI related tasks
@@ -63,6 +64,7 @@ namespace Hyperdrive.UI
             //passwordResetter.SendEmail3();
 
             Console.WriteLine(ResetCodeGenerator.GetCode());
+            
         }
 
         private void LicenseInfoComplete(object sender, EventArgs e)

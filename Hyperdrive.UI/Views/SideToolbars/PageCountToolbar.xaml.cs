@@ -140,7 +140,7 @@ namespace Hyperdrive.UI.Views.SideToolbars
             ItemsControl itemsControl = (ItemsControl)this.FindName("PageCountContainer");
 
             if (itemsControl != null)
-                itemsControl.Items.Add(new PageCountItem("TOTAL PAGES", totalPageCount));
+                itemsControl.Items.Add(new PageCountItem("TOTAL PAGES", totalPageCount, true));
 
             foreach (PageSizeCount pageSize in pageSizes)
             {

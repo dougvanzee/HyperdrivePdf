@@ -18,8 +18,8 @@
         <DataTemplate x:Key="PageCountToolbar" DataType="{x:Type tlbr:PageCountToolbar}" >
             <tlbr:PageCountToolbar />
         </DataTemplate>
-        <DataTemplate x:Key="LetterTabloidResizerToolbar" DataType="{x:Type tlbr:LetterTabloidResizerToolbar}" >
-            <tlbr:LetterTabloidResizerToolbar />
+        <DataTemplate x:Key="PageColorCountToolbar" DataType="{x:Type tlbr:PageColorCountToolbar}" >
+            <tlbr:PageColorCountToolbar />
         </DataTemplate>
 
         <Style x:Key="FocusVisual">
@@ -107,7 +107,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Page Count"  Foreground="White" VerticalAlignment="Center" Margin="8 0" />
+                            <TextBlock Grid.Column="0" Text="{Binding currentToolbarName}"  Foreground="White" VerticalAlignment="Center" Margin="8 0" />
                             <Button Grid.Column="1" Click="ExitSideToolbar_Click"  Width="25" Content="X" Style="{StaticResource WindowControlButton}" Padding="7" />
                         </Grid>
                         <ContentControl Grid.Row="1" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.bIsFileOpen}" Content="{Binding CurrentToolbarIndex}" >
@@ -119,7 +119,7 @@
                                             <Setter Property="ContentTemplate" Value="{StaticResource PageCountToolbar}" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding CurrentToolbarIndex}" Value="2">
-                                            <Setter Property="ContentTemplate" Value="{StaticResource LetterTabloidResizerToolbar}" />
+                                            <Setter Property="ContentTemplate" Value="{StaticResource PageColorCountToolbar}" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -138,9 +138,9 @@
                         <RotateTransform Angle="90" />
                     </ToggleButton.LayoutTransform>
                 </ToggleButton>
-                <ToggleButton IsEnabled="False" Content="Resizer" HorizontalAlignment="Right" BorderThickness="0" Margin="0 5"
-                            Width="65" Height="28" Background="Transparent" Foreground="{StaticResource ForegroundLightBrush}" Style="{DynamicResource ToggleButtonStyle1}"
-                              Click="LetterTabloidResizer_Click" IsChecked="{Binding bLetterTabloidResizerOpen, Mode=OneWay}">
+                <ToggleButton Content="Color Counts" HorizontalAlignment="Right" BorderThickness="0" Margin="0 5"
+                            Width="90" Height="28" Background="Transparent" Foreground="{StaticResource ForegroundLightBrush}" Style="{DynamicResource ToggleButtonStyle1}"
+                              Click="PageColorCount_Click" IsChecked="{Binding bPageColorCountOpen, Mode=OneWay}">
                     <ToggleButton.LayoutTransform>
                         <RotateTransform Angle="90" />
                     </ToggleButton.LayoutTransform>

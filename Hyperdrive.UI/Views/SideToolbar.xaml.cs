@@ -20,7 +20,7 @@ public enum SideToolbarEnum
 {
     None,
     PageCount,
-    LetterTabloidResizer
+    PageColorCount
 }
 
  namespace Hyperdrive.UI.Views
@@ -34,7 +34,11 @@ public enum SideToolbarEnum
 
         private SideToolbarEnum currentSideToolbar = SideToolbarEnum.None;
 
+        private String _currentToolbarName = "Page Color Counts";
+
         public int SwitchView { get; set; } = 1;
+
+        public String currentToolbarName { get { return _currentToolbarName; } }
 
         public SideToolbar()
         {
@@ -71,7 +75,8 @@ public enum SideToolbarEnum
             OnPropertyChanged(nameof(currentSideToolbar));
             OnPropertyChanged(nameof(CurrentToolbarIndex));
             OnPropertyChanged(nameof(bPageCountOpen));
-            OnPropertyChanged(nameof(bLetterTabloidResizerOpen));
+            OnPropertyChanged(nameof(bPageColorCountOpen));
+            OnPropertyChanged(nameof(currentToolbarName));
         }
 
         public int CurrentToolbarIndex
@@ -84,9 +89,11 @@ public enum SideToolbarEnum
                         return 0;
 
                     case SideToolbarEnum.PageCount:
+                        _currentToolbarName = "Page Counts";
                         return 1;
 
-                    case SideToolbarEnum.LetterTabloidResizer:
+                    case SideToolbarEnum.PageColorCount:
+                        _currentToolbarName = "Page Color Counts";
                         return 2;
                 }
                 return 0;
@@ -96,7 +103,7 @@ public enum SideToolbarEnum
 
         public bool bPageCountOpen { get { return currentSideToolbar == SideToolbarEnum.PageCount ? true : false; } }
 
-        public bool bLetterTabloidResizerOpen { get { return currentSideToolbar == SideToolbarEnum.LetterTabloidResizer ? true : false; } }
+        public bool bPageColorCountOpen { get { return currentSideToolbar == SideToolbarEnum.PageColorCount ? true : false; } }
 
        
 
@@ -113,9 +120,9 @@ public enum SideToolbarEnum
             SwitchToolbar(SideToolbarEnum.PageCount);
         }
 
-        private void LetterTabloidResizer_Click(object sender, RoutedEventArgs e)
+        private void PageColorCount_Click(object sender, RoutedEventArgs e)
         {
-            SwitchToolbar(SideToolbarEnum.LetterTabloidResizer);
+            SwitchToolbar(SideToolbarEnum.PageColorCount);
         }
 
         #endregion

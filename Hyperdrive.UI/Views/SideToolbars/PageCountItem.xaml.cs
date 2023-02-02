@@ -32,28 +32,41 @@ namespace Hyperdrive.UI.Views.SideToolbars
         {
             InitializeComponent();
 
-            pageCount = count;
+            pageCount = count.ToString();
             sizeName = width + "x" + height;
 
             OnPropertyChanged(nameof(pageCount));
             OnPropertyChanged(nameof(sizeName));
         }
 
-        public PageCountItem(string name, int totalPageCount)
+        public PageCountItem(string name, int count, bool boldText = false)
         {
             InitializeComponent();
 
-            pageCount = totalPageCount;
+            pageCount = count.ToString();
             sizeName = name;
 
-            changeTextToBold();
+            if (boldText == true) changeTextToBold();
 
             OnPropertyChanged(nameof(pageCount));
             OnPropertyChanged(nameof(sizeName));
         }
 
-        
-        public int pageCount { get; set; } = 0;
+        public PageCountItem(string name, string count, bool boldText = false)
+        {
+            InitializeComponent();
+
+            pageCount = count;
+            sizeName = name;
+
+            if (boldText == true) changeTextToBold();
+
+            OnPropertyChanged(nameof(pageCount));
+            OnPropertyChanged(nameof(sizeName));
+        }
+
+
+        public string pageCount { get; set; } = "0";
 
         public string sizeName { get; set; }
 

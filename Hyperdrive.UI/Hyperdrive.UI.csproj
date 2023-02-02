@@ -35,7 +35,7 @@
     <MinimumRequiredVersion>0.0.0.43</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>47</ApplicationRevision>
+    <ApplicationRevision>53</ApplicationRevision>
     <ApplicationVersion>0.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -189,6 +189,9 @@
     <Compile Include="Views\SideToolbars\PageCountSideToolbar.xaml.cs">
       <DependentUpon>PageCountSideToolbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SideToolbars\PageColorCountToolbar.xaml.cs">
+      <DependentUpon>PageColorCountToolbar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SideToolbars\PageCountToolbar.xaml.cs">
       <DependentUpon>PageCountToolbar.xaml</DependentUpon>
     </Compile>
@@ -267,6 +270,10 @@
     <Page Include="Views\SideToolbars\PageCountSideToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SideToolbars\PageColorCountToolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SideToolbars\PageCountToolbar.xaml">
       <SubType>Designer</SubType>

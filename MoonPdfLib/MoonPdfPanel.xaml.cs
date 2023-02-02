@@ -32,7 +32,6 @@ using MoonPdfLib.MuPdf;
 using MoonPdfLib.Helper;
 using System.Windows.Threading;
 using System.ComponentModel;
-using Hyperdrive.Core.Utils;
 
 namespace MoonPdfLib
 {
