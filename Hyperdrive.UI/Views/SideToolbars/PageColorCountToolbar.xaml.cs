@@ -204,6 +204,9 @@ namespace Hyperdrive.UI.Views.SideToolbars
 
                 bool bHasColor = ColorStats.PdfPageContainsColorLockedBits(inPath, i);
 
+                if (bHasColor == true)
+                    Console.WriteLine("Page: " + i + " has color.");
+
                 PdfPage currentPage = pdfDoc.GetPage(i);
                 iText.Kernel.Geom.Rectangle cropRect = currentPage.GetCropBox();
 

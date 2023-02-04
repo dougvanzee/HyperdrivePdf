@@ -118,7 +118,7 @@ namespace Hyperdrive.Core.Stats
                             byte a = rgbaValues[index + 3];
 
                             // Check for colored pixels
-                            if (Math.Abs(r - g) > 2 || Math.Abs(r - b) > 2)
+                            if (Math.Abs(r - g) > 8 || Math.Abs(r - b) > 8 || Math.Abs(g - b) > 8)
                             {
                                 return true;
                             }
