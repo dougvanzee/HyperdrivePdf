@@ -20,7 +20,8 @@ public enum SideToolbarEnum
 {
     None,
     PageCount,
-    PageColorCount
+    PageColorCount,
+    PageSizes
 }
 
  namespace Hyperdrive.UI.Views
@@ -95,6 +96,10 @@ public enum SideToolbarEnum
                     case SideToolbarEnum.PageColorCount:
                         _currentToolbarName = "Page Color Counts";
                         return 2;
+
+                    case SideToolbarEnum.PageSizes:
+                        _currentToolbarName = "Page Sizes";
+                        return 3;
                 }
                 return 0;
             }
@@ -105,7 +110,7 @@ public enum SideToolbarEnum
 
         public bool bPageColorCountOpen { get { return currentSideToolbar == SideToolbarEnum.PageColorCount ? true : false; } }
 
-       
+        public bool bPageSizesOpen { get { return currentSideToolbar == SideToolbarEnum.PageSizes ? true : false; } }
 
 
         #region Button Clicks 
@@ -123,6 +128,11 @@ public enum SideToolbarEnum
         private void PageColorCount_Click(object sender, RoutedEventArgs e)
         {
             SwitchToolbar(SideToolbarEnum.PageColorCount);
+        }
+
+        private void PageSizes_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchToolbar(SideToolbarEnum.PageSizes);
         }
 
         #endregion

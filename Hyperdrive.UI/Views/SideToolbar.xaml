@@ -21,6 +21,9 @@
         <DataTemplate x:Key="PageColorCountToolbar" DataType="{x:Type tlbr:PageColorCountToolbar}" >
             <tlbr:PageColorCountToolbar />
         </DataTemplate>
+        <DataTemplate x:Key="PageCountSideToolbar" DataType="{x:Type tlbr:PageCountSideToolbar}" >
+            <tlbr:PageCountSideToolbar />
+        </DataTemplate>
 
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -121,6 +124,9 @@
                                         <DataTrigger Binding="{Binding CurrentToolbarIndex}" Value="2">
                                             <Setter Property="ContentTemplate" Value="{StaticResource PageColorCountToolbar}" />
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding CurrentToolbarIndex}" Value="3">
+                                            <Setter Property="ContentTemplate" Value="{StaticResource PageCountSideToolbar}" />
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </ContentControl.Style>
@@ -141,6 +147,13 @@
                 <ToggleButton Content="Color Counts" HorizontalAlignment="Right" BorderThickness="0" Margin="0 5"
                             Width="90" Height="28" Background="Transparent" Foreground="{StaticResource ForegroundLightBrush}" Style="{DynamicResource ToggleButtonStyle1}"
                               Click="PageColorCount_Click" IsChecked="{Binding bPageColorCountOpen, Mode=OneWay}">
+                    <ToggleButton.LayoutTransform>
+                        <RotateTransform Angle="90" />
+                    </ToggleButton.LayoutTransform>
+                </ToggleButton>
+                <ToggleButton Content="Page Sizes" HorizontalAlignment="Right" BorderThickness="0" Margin="0 5"
+                            Width="90" Height="28" Background="Transparent" Foreground="{StaticResource ForegroundLightBrush}" Style="{DynamicResource ToggleButtonStyle1}"
+                              Click="PageSizes_Click" IsChecked="{Binding bPageSizesOpen, Mode=OneWay}">
                     <ToggleButton.LayoutTransform>
                         <RotateTransform Angle="90" />
                     </ToggleButton.LayoutTransform>

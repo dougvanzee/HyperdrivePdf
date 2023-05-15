@@ -35,7 +35,7 @@
     <MinimumRequiredVersion>0.0.0.43</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>54</ApplicationRevision>
+    <ApplicationRevision>56</ApplicationRevision>
     <ApplicationVersion>0.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -164,6 +164,7 @@
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
     <Compile Include="ViewModel\LoadingScreenWindowViewModel.cs" />
     <Compile Include="ViewModel\ResizerWindowViewModel.cs" />
+    <Compile Include="ViewModel\TreeItemViewModel.cs" />
     <Compile Include="ViewModel\WindowViewModel.cs" />
     <Compile Include="Views\CounterDirectoryWindow.xaml.cs">
       <DependentUpon>CounterDirectoryWindow.xaml</DependentUpon>
@@ -372,6 +373,9 @@
     </PackageReference>
     <PackageReference Include="PropertyChanged.Fody">
       <Version>3.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="WPFMultiSelectTreeView">
+      <Version>1.0.14</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -119,9 +119,11 @@ namespace Hyperdrive.UI.Views.SideToolbars
             resetValues();
 
             try {
-                worker.CancelAsync();
+                if(worker != null)
+                    worker.CancelAsync();
             }
-            catch { 
+            catch {
+                Console.WriteLine();
             }
 
             ItemsControl itemsControl = (ItemsControl)this.FindName("PageColorCountContainer");
